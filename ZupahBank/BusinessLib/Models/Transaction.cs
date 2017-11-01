@@ -9,6 +9,7 @@ namespace BusinessLib.Models
     public class Transaction
     {
         public decimal Amount { get; set; }
-        // TODO: Add to- and from-account
+        public Account ToAccount { get; set; }
+        public Account FromAccount { get; set; }
     }
 }
