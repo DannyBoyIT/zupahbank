@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZupahBank", "ZupahBank\ZupahBank.csproj", "{667FF9AD-57A4-429E-BD09-38E043DA9D2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{667FF9AD-57A4-429E-BD09-38E043DA9D2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667FF9AD-57A4-429E-BD09-38E043DA9D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667FF9AD-57A4-429E-BD09-38E043DA9D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667FF9AD-57A4-429E-BD09-38E043DA9D2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B2595C6-D35B-4718-8EA8-2705A9ECEC15}
+	EndGlobalSection
+EndGlobal
