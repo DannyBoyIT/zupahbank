@@ -10,6 +10,6 @@ namespace BusinessLib.Models
     {
         public int AccountId { get; set; }
         public decimal Balance { get; set; }
-        //TODO Add customer
+        public int CustomerId { get; set; }
     }
 }
