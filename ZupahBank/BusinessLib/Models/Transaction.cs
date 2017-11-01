@@ -8,7 +8,7 @@ namespace BusinessLib.Models
 {
     public class Transaction
     {
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
         // TODO: Add to- and from-account
     }
 }
