@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZupahBank", "ZupahBank\ZupahBank.csproj", "{667FF9AD-57A4-429E-BD09-38E043DA9D2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLib", "BusinessLib\BusinessLib.csproj", "{12F5D66F-CD86-419F-89EF-A55C65BCFF83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLibIntegrationTests", "BusinessLibIntegrationTests\BusinessLibIntegrationTests.csproj", "{24B42ADF-B183-49BA-9207-D215EAE3D323}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{12F5D66F-CD86-419F-89EF-A55C65BCFF83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12F5D66F-CD86-419F-89EF-A55C65BCFF83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12F5D66F-CD86-419F-89EF-A55C65BCFF83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24B42ADF-B183-49BA-9207-D215EAE3D323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24B42ADF-B183-49BA-9207-D215EAE3D323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24B42ADF-B183-49BA-9207-D215EAE3D323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24B42ADF-B183-49BA-9207-D215EAE3D323}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
