@@ -11,20 +11,14 @@ namespace BusinessLib.Services
 {
     public class FileService
     {
-        public string ReadFromFile()
+        public string[] ReadFromFile()
         {
             try
             {
-                using (var sr = new StreamReader("bankdata-small.txt"))
-                {
-                    foreach (var line in sr.ReadLine())
-                    {
-                        
-                    }
-                    // Read the stream to a string, and write the string to the console.
-                    var file = sr.ReadToEnd();
-                    return file;
-                }
+                var path =  @".\Files\bankdata-small.txt";
+                var file = File.ReadAllLines(path);
+
+                return file;
             }
             catch (Exception e)
             {

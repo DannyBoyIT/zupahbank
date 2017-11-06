@@ -51,7 +51,9 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\bankdata-small.txt" />
+    <Content Include="Files\bankdata-small.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Files\bankdata.txt" />
     <Content Include="Files\README.txt" />
   </ItemGroup>
