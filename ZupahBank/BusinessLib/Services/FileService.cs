@@ -27,11 +27,13 @@ namespace BusinessLib.Services
             }
         }
 
-        public void WriteNewFile()
+        public void WriteNewFile(string[] file)
         {
             try
             {
-
+                var fileName = DateTime.Now.ToString("yyyyMMdd-Hmm");
+                var path = $".\\Files\\{fileName}.txt";
+                File.WriteAllLines(path, file);
             }
             catch (Exception e)
             {
