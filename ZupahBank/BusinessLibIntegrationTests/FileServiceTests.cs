@@ -17,9 +17,8 @@ namespace BusinessLibIntegrationTests
         public void CanWriteToFile()
         {
             var sut = new FileService();
-            var path = @".\Files\bankdata-small.txt";
-            var file = File.ReadAllLines(path);
-            sut.WriteNewFile(file);
+            string[] text = { "Hello", "And", "Welcome" };
+            sut.WriteNewFile(text);
         }
     }
 }
