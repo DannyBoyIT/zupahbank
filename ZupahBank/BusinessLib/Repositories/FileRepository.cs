@@ -7,12 +7,32 @@ using System.Xml.Linq;
 using BusinessLib.Interfaces;
 using BusinessLib.Models;
 using BusinessLib.Services;
-using static System.Int32;
+using System;
 
 namespace BusinessLib.Repositories
 {
-    public class FileRepository : IRepository
+    public sealed class FileRepository : IRepository
     {
+
+        private static volatile FileRepository _instance;
+        private static readonly object SyncRoot = new object();
+
+        private FileRepository() { }
+
+        public static FileRepository Instance
+        {
+            get
+            {
+                if (_instance != null) return _instance;
+                lock (SyncRoot)
+                {
+                    if (_instance == null)
+                        _instance = new FileRepository();
+                }
+                return _instance;
+            }
+        }
+
         public List<Account> Accounts { get; set; } = new List<Account>();
         public List<Customer> Customers { get; set; } = new List<Customer>();
         public List<Transaction> Transactions { get; set; } = new List<Transaction>();
@@ -20,69 +40,10 @@ namespace BusinessLib.Repositories
         public int NumberOfAccounts => Accounts.Count;
         public int NumberOfCustomers => Customers.Count;
         public decimal TotalBalance => Accounts.Sum(account => account.Balance);
-        
-        public void TransformFileToLists(string path)
+
+        public List<Customer> GetCustomers()
         {
-            var fileService = new FileService();
-            var file = fileService.ReadFromFile(path);
-
-            var customerCount = Parse(file[0]);
-            //var accountStartIndex = 0;
-
-            for (var i = 1; i < customerCount + 1; i++)
-            {
-                var customerProps = file[i].Split(';');
-                var customer = new Customer
-                {
-                    CustomerId = Parse(customerProps[0]),
-                    LegalId = customerProps[1],
-                    CustomerName = customerProps[2],
-                    Address = customerProps[3],
-                    City = customerProps[4],
-                    ZipCode = customerProps[6]
-                };
-                if (customerProps[5].Length > 1)
-                {
-                    customer.Region = customerProps[5];
-                }
-                if (customerProps[7].Length > 1)
-                {
-                    customer.Country = customerProps[7];
-                }
-                if (customerProps[8].Length > 1)
-                {
-                    customer.PhoneNumber = customerProps[8];
-                }
-                Customers.Add(customer);
-            }
-            var accountCount = Parse(file[customerCount + 1]);
-            for (var i = customerCount + 2; i < file.Length; i++)
-            {
-                var accountProps = file[i].Split(';');
-                var account = new Account
-                {
-                    AccountId = Parse(accountProps[0]),
-                    CustomerId = Parse(accountProps[1]),
-                    Balance = decimal.Parse(accountProps[2], NumberStyles.Currency, CultureInfo.InvariantCulture)
-                };
-                Accounts.Add(account);
-            }
-
-        }
-
-        public void AddAccount(Account account)
-        {
-
-        }
-
-        public void AddCustomer(Customer customer)
-        {
-
-        }
-
-        public void AddTransaction(Transaction transaction)
-        {
-
+            return Customers;
         }
     }
 }
