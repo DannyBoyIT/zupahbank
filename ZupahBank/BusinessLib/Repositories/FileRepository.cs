@@ -17,6 +17,10 @@ namespace BusinessLib.Repositories
         public List<Customer> Customers { get; set; } = new List<Customer>();
         public List<Transaction> Transactions { get; set; } = new List<Transaction>();
 
+        public int NumberOfAccounts => Accounts.Count;
+        public int NumberOfCustomers => Customers.Count;
+        public decimal TotalBalance => Accounts.Sum(account => account.Balance);
+        
         public void TransformFileToLists(string path)
         {
             var fileService = new FileService();
@@ -51,7 +55,7 @@ namespace BusinessLib.Repositories
                 }
                 Customers.Add(customer);
             }
-            //var accountCount = Int32.Parse(file[customerCount + 1]);
+            var accountCount = Parse(file[customerCount + 1]);
             for (var i = customerCount + 2; i < file.Length; i++)
             {
                 var accountProps = file[i].Split(';');
