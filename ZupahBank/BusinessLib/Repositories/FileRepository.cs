@@ -40,5 +40,55 @@ namespace BusinessLib.Repositories
         public int NumberOfAccounts => Accounts.Count;
         public int NumberOfCustomers => Customers.Count;
         public decimal TotalBalance => Accounts.Sum(account => account.Balance);
+        public List<Customer> GetAllCustomers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Customer> SearchCustomer(string searchTerm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Customer GetCustomer(int customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateCustomer(string customerId, string customerName, string legalId, string address, string zipCode, string city,
+            string region = "", string country = "", string phoneNumber = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCustomer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateAccount(int accountId, int customerId, decimal balance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAccount(int accountId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal GetBalance(int accountId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateBalance(int accountId, decimal newBalance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateBalance(int fromAccountId, int toAccountId, decimal fromAccountNewBalance, decimal toAccountNewBalance)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
