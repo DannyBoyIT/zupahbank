@@ -11,19 +11,9 @@ namespace BusinessLibIntegrationTests
     public class FileRepositoryTests
     {
         [Fact]
-        public void CanTransformFileToLists()
-        {
-            var sut = new FileRepository();
-            var path = @".\Files\bankdata-small.txt";
-            sut.TransformFileToLists(path);
-            Assert.Equal(3, sut.Customers.Count);
-            Assert.Equal(5, sut.Accounts.Count);
-        }
-
-        [Fact]
         public void PropertyCanCountNumberOfAccounts()
         {
-            var sut = new FileRepository();
+            var sut = FileRepository.Instance;
             sut.Accounts.Add(new Account
             {
                 AccountId = 1000,
