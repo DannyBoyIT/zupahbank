@@ -47,7 +47,11 @@ namespace BusinessLib.Repositories
 
         public List<Customer> SearchCustomer(string searchTerm)
         {
-            throw new NotImplementedException();
+            searchTerm = searchTerm.ToLower();
+
+            return Customers.Where(x => 
+                x.CustomerName.ToLower().Contains(searchTerm) || x.City.ToLower().Contains(searchTerm))
+                .ToList();
         }
 
         public Customer GetCustomer(int customerId)
