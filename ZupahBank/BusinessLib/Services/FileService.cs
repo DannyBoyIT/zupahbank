@@ -11,13 +11,11 @@ namespace BusinessLib.Services
 {
     public class FileService
     {
-        public string[] ReadFromFile()
+        public string[] ReadFromFile(string path)
         {
             try
             {
-                var path =  @".\Files\bankdata-small.txt";
                 var file = File.ReadAllLines(path);
-
                 return file;
             }
             catch (Exception e)

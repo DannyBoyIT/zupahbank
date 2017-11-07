@@ -11,7 +11,8 @@ namespace BusinessLibIntegrationTests
         public void CanReadFromFile()
         {
             var sut = new FileService();
-            sut.ReadFromFile();
+            var path = @".\Files\bankdata-small.txt";
+            sut.ReadFromFile(path);
         }
         [Fact]
         public void CanWriteToFile()
