@@ -59,10 +59,20 @@ namespace BusinessLib.Repositories
             throw new NotImplementedException();
         }
 
-        public void CreateCustomer(string customerId, string customerName, string legalId, string address, string zipCode, string city,
+        public void CreateCustomer(int customerId, string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
-            throw new NotImplementedException();
+            Customers.Add(new Customer {
+                Address = address,
+                City = city,
+                Country = country,
+                CustomerId = customerId,
+                CustomerName = customerName,
+                LegalId = legalId,
+                PhoneNumber = phoneNumber,
+                Region = region,
+                ZipCode = zipCode
+            });
         }
 
         public void DeleteCustomer()
