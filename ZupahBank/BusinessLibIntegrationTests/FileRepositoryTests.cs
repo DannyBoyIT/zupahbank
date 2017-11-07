@@ -57,5 +57,17 @@ namespace BusinessLibIntegrationTests
         {
 
         }
+
+        [Fact]
+        public void CanSearchForCustomer()
+        {
+            var sut = FileRepository.Instance;
+
+            sut.CreateCustomer(1234, "Kalle Kallesson", "801010-1010", "Långgatan 1", "11122", "Huvudsta", "Stockholm", "Sverige", "010111222");
+
+            var customers = sut.SearchCustomer("Kalle");
+
+            Assert.Equal(1, customers.Count);
+        }
     }
 }
