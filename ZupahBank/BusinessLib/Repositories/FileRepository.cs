@@ -40,10 +40,5 @@ namespace BusinessLib.Repositories
         public int NumberOfAccounts => Accounts.Count;
         public int NumberOfCustomers => Customers.Count;
         public decimal TotalBalance => Accounts.Sum(account => account.Balance);
-
-        public List<Customer> GetCustomers()
-        {
-            return Customers;
-        }
     }
 }
