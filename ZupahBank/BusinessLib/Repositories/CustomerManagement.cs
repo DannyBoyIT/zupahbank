@@ -29,10 +29,10 @@ namespace BusinessLib.Repositories
             _customers.Add(customer);
         }
 
-        public void Create(int customerId, string customerName, string legalId, string address, string zipCode, string city,
+        public void Create(string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
-            _repo.CreateCustomer(customerId, customerName, legalId, address, zipCode, city,
+            _repo.CreateCustomer(customerName, legalId, address, zipCode, city,
                 region, country, phoneNumber);
         }
 

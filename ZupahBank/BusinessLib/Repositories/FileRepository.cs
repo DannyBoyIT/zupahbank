@@ -53,15 +53,18 @@ namespace BusinessLib.Repositories
             throw new NotImplementedException();
         }
 
-        public void CreateCustomer(int customerId, string customerName, string legalId, string address, string zipCode, string city,
+        public void CreateCustomer(string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
+            var customerIds = Customers.Select(x => x.CustomerId);
+            var newCustomerNo = customerIds == null ? 1: customerIds.Max() + 1; 
+
             Customers.Add(new Customer
             {
                 Address = address,
                 City = city,
                 Country = country,
-                CustomerId = customerId,
+                CustomerId = newCustomerNo,
                 CustomerName = customerName,
                 LegalId = legalId,
                 PhoneNumber = phoneNumber,
