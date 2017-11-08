@@ -1,10 +1,13 @@
-﻿namespace ZupahBank
+﻿using BusinessLib.System;
+using System;
+
+namespace ZupahBank
 {
     public class Program
     {
         static void Main(string[] args)
         {
-
+            var system = new BankSystem();
         }
     }
 }
