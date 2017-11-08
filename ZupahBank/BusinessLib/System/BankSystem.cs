@@ -1,12 +1,16 @@
-﻿namespace BusinessLib.System
+﻿using BusinessLib.Repositories;
+
+namespace BusinessLib.System
 {
     public class BankSystem
     {
-        //TODO Create properties for the managements classes
+        private readonly FileRepository _fileRepository;
+        public readonly AccountManagement accountManagement;
 
         public BankSystem()
         {
-            //TODO Create new instances of management classes
+            _fileRepository = FileRepository.Instance;
+            accountManagement = new AccountManagement(_fileRepository);
         }
     }
 }

@@ -21,9 +21,9 @@ namespace BusinessLib.System
             throw new NotImplementedException();
         }
 
-        public void Create(int accountId, int customerId, decimal balance)
+        public void Create( int customerId)
         {
-            _repo.CreateAccount(accountId, customerId, balance);
+            _repo.CreateAccount( customerId);
         }
 
         public void Delete(int accountId)
