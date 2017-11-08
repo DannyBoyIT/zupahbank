@@ -16,8 +16,7 @@ namespace BusinessLib.Interfaces
         List<Customer> GetAllCustomers();
         List<Customer> SearchCustomer(string searchTerm);
         Customer GetCustomer(int customerId);
-        void CreateCustomer(int customerId,
-            string customerName,
+        bool CreateCustomer(string customerName,
             string legalId,
             string address,
             string zipCode,
@@ -25,12 +24,12 @@ namespace BusinessLib.Interfaces
             string region = "",
             string country = "",
             string phoneNumber = "");
-        void DeleteCustomer(int customerId);
+        bool DeleteCustomer(int customerId);
         List<Account> GetAllAccounts();
-        void CreateAccount(int accountId, int customerId, decimal balance);
-        void DeleteAccount(int accountId);
+        bool CreateAccount(int customerId);
+        bool DeleteAccount(int accountId);
         decimal GetBalance(int accountId);
-        void UpdateBalance(int accountId, decimal newBalance);
-        void UpdateBalance(int fromAccountId, int toAccountId, decimal fromAccountNewBalance, decimal toAccountNewBalance);
+        bool UpdateBalance(int accountId, decimal newBalance);
+        bool UpdateBalance(int fromAccountId, int toAccountId, decimal fromAccountNewBalance, decimal toAccountNewBalance);
     }
 }

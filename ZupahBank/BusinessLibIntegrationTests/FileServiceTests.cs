@@ -39,10 +39,10 @@ namespace BusinessLibIntegrationTests
         {
             var sut = new FileService();
             var repo = FileRepository.Instance;
-            repo.CreateCustomer(1000, "Isabellas Varor", "870310", "Hejsanvägen 5", "10520", "Stockholm");
-            repo.CreateCustomer(1001, "Varor och sånt", "870310", "Hejsanvägen 5", "10520", "Stockholm");
-            repo.CreateAccount(1000, 1000, 1000);
-            repo.CreateAccount(1001, 1001, 1000);
+            repo.CreateCustomer("Isabellas Varor", "870310", "Hejsanvägen 5", "10520", "Stockholm");
+            repo.CreateCustomer("Varor och sånt", "870310", "Hejsanvägen 5", "10520", "Stockholm");
+            repo.CreateAccount(1000);
+            repo.CreateAccount(1001);
             sut.TransformRepoToFile(repo);
         }
     }

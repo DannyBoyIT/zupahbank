@@ -42,7 +42,7 @@ namespace BusinessLib.Services
             }
         }
 
-        public void TransformFileToRepo(IRepository repo, string path)
+        public void TransformFileToRepo(FileRepository repo, string path)
         {
             var file = ReadFromFile(path);
 
@@ -86,7 +86,7 @@ namespace BusinessLib.Services
             }
         }
 
-        public void TransformRepoToFile(IRepository repo)
+        public void TransformRepoToFile(FileRepository repo)
         {
             var lines = new List<string>();
             var customers = repo.GetAllCustomers();
