@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BusinessLib.Interfaces;
 using BusinessLib.Models;
 using BusinessLib.Repositories;
 
@@ -42,7 +42,7 @@ namespace BusinessLib.Services
             }
         }
 
-        public void TransformFileToLists(FileRepository repo, string path)
+        public void TransformFileToRepo(IRepository repo, string path)
         {
             var file = ReadFromFile(path);
 
@@ -76,7 +76,6 @@ namespace BusinessLib.Services
                 }
                 repo.CreateCustomer(customerId, customerName, legalId,address, zipCode, city, region, country, phoneNumber);
             }
-            //var accountCount = Parse(file[customerCount + 1]);
             for (var i = customerCount + 2; i < file.Length; i++)
             {
                 var accountProps = file[i].Split(';');
@@ -87,9 +86,24 @@ namespace BusinessLib.Services
             }
         }
 
-        public void TransformListsToFile(FileRepository repo, List<Account> accounts, List<Customer> customers)
+        public void TransformRepoToFile(IRepository repo)
         {
+            var lines = new List<string>();
+            var customers = repo.GetAllCustomers();
+            var accounts = repo.GetAllAccounts();
 
+            lines.Add(customers.Count.ToString());
+            foreach (var customer in customers)
+            {
+                lines.Add($"{customer.CustomerId};{customer.LegalId};{customer.CustomerName};{customer.Address};{customer.City};{customer.Region};{customer.ZipCode};{customer.Country};{customer.PhoneNumber}");
+            }
+            lines.Add(accounts.Count.ToString());
+            foreach (var account in accounts)
+            {
+                lines.Add($"{account.AccountId};{account.CustomerId};{account.Balance}");
+            }
+
+            var file = lines.ToArray();
         }
     }
 }

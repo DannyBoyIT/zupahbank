@@ -78,6 +78,8 @@ namespace BusinessLib.Repositories
             }
         }
 
+        public List<Account> GetAllAccounts() => Accounts;
+
         public void CreateAccount(int accountId, int customerId, decimal balance)
         {
             try

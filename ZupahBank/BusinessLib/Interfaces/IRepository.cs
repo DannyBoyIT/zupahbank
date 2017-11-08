@@ -26,6 +26,7 @@ namespace BusinessLib.Interfaces
             string country = "",
             string phoneNumber = "");
         void DeleteCustomer(int customerId);
+        List<Account> GetAllAccounts();
         void CreateAccount(int accountId, int customerId, decimal balance);
         void DeleteAccount(int accountId);
         decimal GetBalance(int accountId);
