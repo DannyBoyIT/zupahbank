@@ -47,7 +47,11 @@ namespace BusinessLib.Repositories
 
         public List<Customer> SearchCustomer(string searchTerm)
         {
-            throw new NotImplementedException();
+            searchTerm = searchTerm.ToLower();
+
+            return Customers.Where(x => 
+                x.CustomerName.ToLower().Contains(searchTerm) || x.City.ToLower().Contains(searchTerm))
+                .ToList();
         }
 
         public Customer GetCustomer(int customerId)
@@ -55,10 +59,20 @@ namespace BusinessLib.Repositories
             throw new NotImplementedException();
         }
 
-        public void CreateCustomer(string customerId, string customerName, string legalId, string address, string zipCode, string city,
+        public void CreateCustomer(int customerId, string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
-            throw new NotImplementedException();
+            Customers.Add(new Customer {
+                Address = address,
+                City = city,
+                Country = country,
+                CustomerId = customerId,
+                CustomerName = customerName,
+                LegalId = legalId,
+                PhoneNumber = phoneNumber,
+                Region = region,
+                ZipCode = zipCode
+            });
         }
 
         public void DeleteCustomer()
