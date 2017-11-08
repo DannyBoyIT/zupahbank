@@ -14,8 +14,7 @@ namespace BusinessLib.Repositories
     public sealed class FileRepository : IRepository
     {
 
-        private static volatile FileRepository _instance;
-        private static readonly object SyncRoot = new object();
+        private static readonly FileRepository _instance = new FileRepository();
 
         private FileRepository() { }
 
@@ -23,12 +22,6 @@ namespace BusinessLib.Repositories
         {
             get
             {
-                if (_instance != null) return _instance;
-                lock (SyncRoot)
-                {
-                    if (_instance == null)
-                        _instance = new FileRepository();
-                }
                 return _instance;
             }
         }
