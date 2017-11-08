@@ -50,10 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Services\FileService.cs" />
+    <Compile Include="System\BankSystem.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="System\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Files\bankdata-small.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
