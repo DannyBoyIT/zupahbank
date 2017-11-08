@@ -28,11 +28,11 @@ namespace BusinessLibIntegrationTests
             var sut = FileRepository.Instance;
             var service = new FileService();
             const string path = @".\Files\bankdata-small.txt";
-            service.TransformFileToLists(sut, path);
+            service.TransformFileToRepo(sut, path);
 
             sut.CreateCustomer("Kalle Kallesson", "801010-1010", "Långgatan 1", "11122", "Huvudsta", "Stockholm", "Sverige", "010111222");
 
-            Assert.Equal(1033, sut.Customers.LastOrDefault()?.CustomerId);
+            Assert.Equal(1033, sut.GetAllCustomers().LastOrDefault()?.CustomerId);
         }
     }
 }
