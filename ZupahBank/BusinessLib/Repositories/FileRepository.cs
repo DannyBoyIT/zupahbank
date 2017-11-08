@@ -97,5 +97,10 @@ namespace BusinessLib.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Account GetAccount(int accountId)
+        {
+            return Accounts.FirstOrDefault(x => x.AccountId == accountId);
+        }
     }
 }
