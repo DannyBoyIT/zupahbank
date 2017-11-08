@@ -176,6 +176,7 @@ namespace BusinessLib.Repositories
             try
             {
                 var account = Accounts.FirstOrDefault(x => x.AccountId == accountId);
+                if (account == null || account.Balance == 0) return false;
                 Accounts.Remove(account);
                 return true;
             }
