@@ -49,9 +49,10 @@ namespace BusinessLib.Repositories
         {
             searchTerm = searchTerm.ToLower();
 
-            return Customers.Where(x => 
+            return Customers.Where(x =>
                 x.CustomerName.ToLower().Contains(searchTerm) || x.City.ToLower().Contains(searchTerm))
                 .ToList();
+            
         }
 
         public Customer GetCustomer(int customerId)
@@ -62,7 +63,8 @@ namespace BusinessLib.Repositories
         public void CreateCustomer(int customerId, string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
-            Customers.Add(new Customer {
+            Customers.Add(new Customer
+            {
                 Address = address,
                 City = city,
                 Country = country,
@@ -73,6 +75,7 @@ namespace BusinessLib.Repositories
                 Region = region,
                 ZipCode = zipCode
             });
+            
         }
 
         public void DeleteCustomer()

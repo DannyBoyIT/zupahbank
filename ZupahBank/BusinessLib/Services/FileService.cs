@@ -73,6 +73,7 @@ namespace BusinessLib.Services
                 {
                     customer.PhoneNumber = customerProps[8];
                 }
+                // TODO: Adjust to loose coupling
                 repo.Customers.Add(customer);
             }
             //var accountCount = Parse(file[customerCount + 1]);
