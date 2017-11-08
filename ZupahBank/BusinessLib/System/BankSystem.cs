@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BusinessLib.System
+﻿namespace BusinessLib.System
 {
-    class BankSystem
+    public class BankSystem
     {
+        //TODO Create properties for the managements classes
+
+        public BankSystem()
+        {
+            //TODO Create new instances of management classes
+        }
     }
 }
