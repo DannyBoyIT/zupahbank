@@ -12,6 +12,7 @@ namespace BusinessLib.Interfaces
         List<Customer> GetAllCustomers();
         List<Customer> SearchCustomer(string searchTerm);
         Customer GetCustomer(int customerId);
+        Account GetAccount(int accountId);
         void CreateCustomer(int customerId,
             string customerName,
             string legalId,
