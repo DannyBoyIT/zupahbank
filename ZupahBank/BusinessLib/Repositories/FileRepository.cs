@@ -33,62 +33,126 @@ namespace BusinessLib.Repositories
             }
         }
 
-        public List<Account> Accounts { get; set; } = new List<Account>();
-        public List<Customer> Customers { get; set; } = new List<Customer>();
-        public List<Transaction> Transactions { get; set; } = new List<Transaction>();
+        private List<Account> Accounts { get; set; } = new List<Account>();
+        private List<Customer> Customers { get; set; } = new List<Customer>();
 
-        public int NumberOfAccounts => Accounts.Count;
-        public int NumberOfCustomers => Customers.Count;
-        public decimal TotalBalance => Accounts.Sum(account => account.Balance);
-        public List<Customer> GetAllCustomers()
-        {
-            throw new NotImplementedException();
-        }
+        public int NumberOfAccounts() => Accounts.Count;
+        public int NumberOfCustomers() => Customers.Count;
+        public decimal TotalBalance() => Accounts.Sum(account => account.Balance);
 
-        public List<Customer> SearchCustomer(string searchTerm)
-        {
-            throw new NotImplementedException();
-        }
+        public List<Customer> GetAllCustomers() => Customers;
 
-        public Customer GetCustomer(int customerId)
-        {
-            throw new NotImplementedException();
-        }
+        public List<Customer> SearchCustomer(string searchTerm) => Customers.Where(x=>x.CustomerName.Contains(searchTerm) || x.City.Contains(searchTerm)).ToList();
+        
+        public Customer GetCustomer(int customerId) => Customers.FirstOrDefault(x => x.CustomerId == customerId);
 
-        public void CreateCustomer(string customerId, string customerName, string legalId, string address, string zipCode, string city,
+        public void CreateCustomer(int customerId, string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
-            throw new NotImplementedException();
+            var customer = new Customer
+            {
+                CustomerId = customerId,
+                Address = address,
+                PhoneNumber = phoneNumber,
+                City = city,
+                Region = region,
+                ZipCode = zipCode,
+                LegalId = legalId,
+                CustomerName = customerName,
+                Country = country
+            };
+            Customers.Add(customer);
         }
 
-        public void DeleteCustomer()
+        public void DeleteCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var customer = Customers.FirstOrDefault(x => x.CustomerId == customerId);
+                Customers.Remove(customer);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public void CreateAccount(int accountId, int customerId, decimal balance)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var account = new Account
+                {
+                    CustomerId = customerId,
+                    Balance = balance,
+                    AccountId = accountId
+                };
+                Accounts.Add(account);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public void DeleteAccount(int accountId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var account = Accounts.FirstOrDefault(x => x.AccountId == accountId);
+                Accounts.Remove(account);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public decimal GetBalance(int accountId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var account = Accounts.First(x => x.AccountId == accountId);
+                return account.Balance;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public void UpdateBalance(int accountId, decimal newBalance)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var account = Accounts.First(x => x.AccountId == accountId);
+                account.Balance = newBalance;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
 
         public void UpdateBalance(int fromAccountId, int toAccountId, decimal fromAccountNewBalance, decimal toAccountNewBalance)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Accounts.First(x => x.AccountId == toAccountId).Balance = toAccountNewBalance;
+                Accounts.First(x => x.AccountId == fromAccountId).Balance = toAccountNewBalance;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
     }
 }

@@ -9,10 +9,14 @@ namespace BusinessLib.Interfaces
 {
     public interface IRepository
     {
+        int NumberOfAccounts();
+        int NumberOfCustomers();
+        decimal TotalBalance();
+
         List<Customer> GetAllCustomers();
         List<Customer> SearchCustomer(string searchTerm);
         Customer GetCustomer(int customerId);
-        void CreateCustomer(string customerId,
+        void CreateCustomer(int customerId,
             string customerName,
             string legalId,
             string address,
@@ -21,8 +25,7 @@ namespace BusinessLib.Interfaces
             string region = "",
             string country = "",
             string phoneNumber = "");
-        void DeleteCustomer();
-
+        void DeleteCustomer(int customerId);
         void CreateAccount(int accountId, int customerId, decimal balance);
         void DeleteAccount(int accountId);
         decimal GetBalance(int accountId);
