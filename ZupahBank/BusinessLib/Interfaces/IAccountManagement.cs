@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using BusinessLib.Models;
 
 namespace BusinessLib.Interfaces
 {
@@ -10,5 +7,7 @@ namespace BusinessLib.Interfaces
     {
         void Create(int customerId);
         void Delete(int accountId);
+       
+        List<Account> AllAccounts();
     }
 }

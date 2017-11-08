@@ -51,6 +51,8 @@
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\CustomerManagement.cs" />
     <Compile Include="Services\FileService.cs" />
+    <Compile Include="System\AccountManagement.cs" />
+    <Compile Include="System\BankSystem.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
