@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLib.Interfaces
 {
-    interface ICustomerManagement
+    public interface ICustomerManagement
     {
-        void Create(string name, string legalId);
+        void Create(string customerName, string legalId, string address, string zipCode, string city,
+            string region = "", string country = "", string phoneNumber = "");
         void Delete(int customerId);
         Customer Edit(int customerId);
-        Customer Search(string search);
         List<Customer> AllCustomers();
+        List<Customer> Search(string searchTerm);
     }
 }
