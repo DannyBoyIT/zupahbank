@@ -4,12 +4,6 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-
-    <ApplicationIcon />
-
-    <OutputType>Exe</OutputType>
-
-    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
