@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BusinessLib.Interfaces;
 using BusinessLib.Models;
 using BusinessLib.Repositories;
 
@@ -42,7 +42,7 @@ namespace BusinessLib.Services
             }
         }
 
-        public void TransformFileToLists(FileRepository repo, string path)
+        public void TransformFileToRepo(FileRepository repo, string path)
         {
             var file = ReadFromFile(path);
 
@@ -52,46 +52,58 @@ namespace BusinessLib.Services
             for (var i = 1; i < customerCount + 1; i++)
             {
                 var customerProps = file[i].Split(';');
-                var customer = new Customer
-                {
-                    CustomerId = int.Parse(customerProps[0]),
-                    LegalId = customerProps[1],
-                    CustomerName = customerProps[2],
-                    Address = customerProps[3],
-                    City = customerProps[4],
-                    ZipCode = customerProps[6]
-                };
+
+                var customerId = int.Parse(customerProps[0]);
+                var legalId = customerProps[1];
+                var customerName = customerProps[2];
+                var address = customerProps[3];
+                var city = customerProps[4];
+                var zipCode = customerProps[6];
+                var region = "";
+                var country = "";
+                var phoneNumber = "";
                 if (customerProps[5].Length > 1)
                 {
-                    customer.Region = customerProps[5];
+                    region = customerProps[5];
                 }
                 if (customerProps[7].Length > 1)
                 {
-                    customer.Country = customerProps[7];
+                    country = customerProps[7];
                 }
                 if (customerProps[8].Length > 1)
                 {
-                    customer.PhoneNumber = customerProps[8];
+                    phoneNumber = customerProps[8];
                 }
-                repo.Customers.Add(customer);
+                repo.CreateCustomer(customerId, customerName, legalId,address, zipCode, city, region, country, phoneNumber);
             }
-            //var accountCount = Parse(file[customerCount + 1]);
             for (var i = customerCount + 2; i < file.Length; i++)
             {
                 var accountProps = file[i].Split(';');
-                var account = new Account
-                {
-                    AccountId = int.Parse(accountProps[0]),
-                    CustomerId = int.Parse(accountProps[1]),
-                    Balance = decimal.Parse(accountProps[2], NumberStyles.Currency, CultureInfo.InvariantCulture)
-                };
-                repo.Accounts.Add(account);
+                var accountId = int.Parse(accountProps[0]);
+                var customerId = int.Parse(accountProps[1]);
+                var balance = decimal.Parse(accountProps[2], NumberStyles.Currency, CultureInfo.InvariantCulture);
+                repo.CreateAccount(accountId, customerId, balance);
             }
         }
 
-        public void TransformListsToFile(FileRepository repo, List<Account> accounts, List<Customer> customers)
+        public void TransformRepoToFile(FileRepository repo)
         {
+            var lines = new List<string>();
+            var customers = repo.GetAllCustomers();
+            var accounts = repo.GetAllAccounts();
 
+            lines.Add(customers.Count.ToString());
+            foreach (var customer in customers)
+            {
+                lines.Add($"{customer.CustomerId};{customer.LegalId};{customer.CustomerName};{customer.Address};{customer.City};{customer.Region};{customer.ZipCode};{customer.Country};{customer.PhoneNumber}");
+            }
+            lines.Add(accounts.Count.ToString());
+            foreach (var account in accounts)
+            {
+                lines.Add($"{account.AccountId};{account.CustomerId};{account.Balance}");
+            }
+
+            var file = lines.ToArray();
         }
     }
 }
