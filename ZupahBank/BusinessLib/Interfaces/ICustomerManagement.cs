@@ -10,8 +10,8 @@ namespace BusinessLib.Interfaces
     interface ICustomerManagement
     {
         void Create(string name, string legalId);
-        void Delete();
-        Customer Edit();
+        void Delete(string legalId);
+        Customer Edit(string legalId);
         Customer Search(string search);
         List<Customer> AllCustomers();
     }
