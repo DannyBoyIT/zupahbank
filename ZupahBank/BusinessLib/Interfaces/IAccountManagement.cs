@@ -5,8 +5,8 @@ namespace BusinessLib.Interfaces
 {
     public interface IAccountManagement
     {
-        void Create(int customerId);
-        void Delete(int accountId);
+        bool Create(int customerId);
+        bool Delete(int accountId);
        
         List<Account> AllAccounts();
     }

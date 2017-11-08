@@ -18,17 +18,17 @@ namespace BusinessLib.System
         }
         public List<Account> AllAccounts()
         {
-            throw new NotImplementedException();
+            return _repo.GetAllAccounts();
         }
-
-        public void Create( int customerId)
+         
+        public bool Create(int customerId)
         {
-            _repo.CreateAccount( customerId);
+            return _repo.CreateAccount(customerId);
         }
-
-        public void Delete(int accountId)
+         
+        public bool Delete(int accountId)
         {
-            _repo.DeleteAccount(accountId);
+            return _repo.DeleteAccount(accountId);
         }
     }
 }
