@@ -53,6 +53,7 @@
     <Compile Include="Services\FileService.cs" />
     <Compile Include="System\AccountManagement.cs" />
     <Compile Include="System\BankSystem.cs" />
+    <Compile Include="System\TransactionManagement.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
