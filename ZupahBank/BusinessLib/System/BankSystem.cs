@@ -1,16 +1,16 @@
-﻿using BusinessLib.Repositories;
+﻿using BusinessLib.Interfaces;
 
 namespace BusinessLib.System
 {
     public class BankSystem
     {
-        private readonly FileRepository _fileRepository;
         public readonly AccountManagement accountManagement;
 
-        public BankSystem()
+        public BankSystem(IRepository repository)
         {
-            _fileRepository = FileRepository.Instance;
-            accountManagement = new AccountManagement(_fileRepository);
+            accountManagement = new AccountManagement(repository);
+            //Othe management classes will be instansiated here
         }
     }
 }
+

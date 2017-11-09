@@ -7,7 +7,6 @@ namespace ZupahBank
     {
         static void Main(string[] args)
         {
-            var system = new BankSystem();
         }
     }
 }
