@@ -190,6 +190,7 @@ namespace BusinessLib.Repositories
             try
             {
                 var account = Accounts.FirstOrDefault(x => x.AccountId == accountId);
+                if (account == null) return false;
                 Accounts.Remove(account);
                 return true;
             }
