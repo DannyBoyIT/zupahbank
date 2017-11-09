@@ -115,7 +115,19 @@ namespace BusinessLib.Repositories
             try
             {
                 var customer = Customers.FirstOrDefault(x => x.CustomerId == customerId);
-                if (customer == null || Accounts.Any(x => x.CustomerId == customer.CustomerId)) return false;
+                if (customer == null) return false;
+                var customerAccounts = Accounts.Where(x => x.CustomerId == customer.CustomerId).ToList();
+                if (customerAccounts.Count > 0)
+                {
+                    foreach (var account in customerAccounts)
+                    {
+                        if (account.Balance != 0)
+                        {
+                            return false;
+                        }
+                        Accounts.Remove(account);
+                    }
+                }
                 Customers.Remove(customer);
                 return true;
             }
