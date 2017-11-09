@@ -99,6 +99,7 @@ namespace BusinessLib.Repositories
                 };
 
                 Customers.Add(customer);
+                CreateAccount(customer.CustomerId);
                 return true;
             }
             catch (Exception e)
@@ -114,6 +115,7 @@ namespace BusinessLib.Repositories
             try
             {
                 var customer = Customers.FirstOrDefault(x => x.CustomerId == customerId);
+                if (customer == null || Accounts.Any(x => x.CustomerId == customer.CustomerId)) return false;
                 Customers.Remove(customer);
                 return true;
             }
@@ -131,7 +133,7 @@ namespace BusinessLib.Repositories
             try
             {
                 if (string.IsNullOrEmpty(customerId.ToString())) return false;
-                var accountId = 0001;
+                var accountId = 1001;
                 if (Accounts.Count != 0)
                 {
                     accountId = Accounts.OrderByDescending(x => x.AccountId).Select(x => x.AccountId).First() + 1;
