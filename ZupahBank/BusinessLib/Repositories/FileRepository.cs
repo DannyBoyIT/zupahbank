@@ -99,6 +99,7 @@ namespace BusinessLib.Repositories
                 };
 
                 Customers.Add(customer);
+                CreateAccount(customer.CustomerId);
                 return true;
             }
             catch (Exception e)
@@ -114,6 +115,19 @@ namespace BusinessLib.Repositories
             try
             {
                 var customer = Customers.FirstOrDefault(x => x.CustomerId == customerId);
+                if (customer == null) return false;
+                var customerAccounts = Accounts.Where(x => x.CustomerId == customer.CustomerId).ToList();
+                if (customerAccounts.Count > 0)
+                {
+                    foreach (var account in customerAccounts)
+                    {
+                        if (account.Balance != 0)
+                        {
+                            return false;
+                        }
+                        Accounts.Remove(account);
+                    }
+                }
                 Customers.Remove(customer);
                 return true;
             }
@@ -131,7 +145,7 @@ namespace BusinessLib.Repositories
             try
             {
                 if (string.IsNullOrEmpty(customerId.ToString())) return false;
-                var accountId = 0001;
+                var accountId = 1001;
                 if (Accounts.Count != 0)
                 {
                     accountId = Accounts.OrderByDescending(x => x.AccountId).Select(x => x.AccountId).First() + 1;
@@ -176,6 +190,7 @@ namespace BusinessLib.Repositories
             try
             {
                 var account = Accounts.FirstOrDefault(x => x.AccountId == accountId);
+                if (account == null) return false;
                 Accounts.Remove(account);
                 return true;
             }
@@ -219,8 +234,12 @@ namespace BusinessLib.Repositories
         {
             try
             {
+                var toAccount = Accounts.First(x => x.AccountId == toAccountId);
+                var fromAccount = Accounts.First(x => x.AccountId == fromAccountId);
+                if (toAccountNewBalance < toAccount.Balance || fromAccountNewBalance > fromAccount.Balance) return false;
+                Accounts.First(x => x.AccountId == fromAccountId).Balance = fromAccountNewBalance;
                 Accounts.First(x => x.AccountId == toAccountId).Balance = toAccountNewBalance;
-                Accounts.First(x => x.AccountId == fromAccountId).Balance = toAccountNewBalance;
+
                 return true;
             }
             catch (Exception e)
