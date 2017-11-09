@@ -30,5 +30,42 @@ namespace BusinessLib.System
         {
             return _repo.DeleteAccount(accountId);
         }
+
+        public bool Withdraw(int accountId, decimal amount)
+        {
+            if (amount < 0)
+            {
+                return false;
+            }
+
+            var balance = _repo.GetBalance(accountId);
+
+            var newBalance = balance - amount;
+            
+            if(newBalance < 0)
+            {
+                return false;
+            }
+
+            _repo.UpdateBalance(accountId, newBalance);
+
+            return true;
+        }
+
+        public bool Deposit(int accountId, decimal amount)
+        {
+            if (amount < 0)
+            {
+                return false;
+            }
+
+            var balance = _repo.GetBalance(accountId);
+
+            var newBalance = balance + amount;
+
+            _repo.UpdateBalance(accountId, newBalance);
+
+            return true;
+        }
     }
 }
