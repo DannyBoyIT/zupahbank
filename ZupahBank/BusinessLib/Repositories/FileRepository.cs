@@ -233,8 +233,12 @@ namespace BusinessLib.Repositories
         {
             try
             {
+                var toAccount = Accounts.First(x => x.AccountId == toAccountId);
+                var fromAccount = Accounts.First(x => x.AccountId == fromAccountId);
+                if (toAccountNewBalance < toAccount.Balance || fromAccountNewBalance > fromAccount.Balance) return false;
+                Accounts.First(x => x.AccountId == fromAccountId).Balance = fromAccountNewBalance;
                 Accounts.First(x => x.AccountId == toAccountId).Balance = toAccountNewBalance;
-                Accounts.First(x => x.AccountId == fromAccountId).Balance = toAccountNewBalance;
+
                 return true;
             }
             catch (Exception e)
