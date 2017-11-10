@@ -5,7 +5,7 @@ using BusinessLib.Models;
 
 namespace BusinessLib.System
 {
-    class CustomerManagement : ICustomerManagement
+    public class CustomerManagement : ICustomerManagement
     {
         private IRepository _repo;
 
