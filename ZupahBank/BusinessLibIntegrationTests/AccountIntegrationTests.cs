@@ -19,18 +19,18 @@ namespace BusinessLibIntegrationTests
             const string path = @".\Files\bankdata-small.txt";
             service.TransformFileToRepo(repo, path);
 
-            var sut = new AccountManagement(repo);
+            var sut = new BankSystem(repo);
             var accountNo = 13130;
 
-            Assert.Equal(false, sut.Withdraw(accountNo, 5000));
-            Assert.Equal(false, sut.Withdraw(accountNo, -5000));
-            Assert.Equal(false, sut.Deposit(accountNo, -5000));
+            Assert.Equal(false, sut.accountManagement.Withdraw(accountNo, 5000));
+            Assert.Equal(false, sut.accountManagement.Withdraw(accountNo, -5000));
+            Assert.Equal(false, sut.accountManagement.Deposit(accountNo, -5000));
 
-            sut.Withdraw(accountNo, 1000);
+            sut.accountManagement.Withdraw(accountNo, 1000);
             var account = repo.GetAccount(accountNo);
             Assert.Equal(3807.00m, account.Balance);
 
-            sut.Deposit(accountNo, 1000);
+            sut.accountManagement.Deposit(accountNo, 1000);
             Assert.Equal(4807.00m, account.Balance);
         }
         
