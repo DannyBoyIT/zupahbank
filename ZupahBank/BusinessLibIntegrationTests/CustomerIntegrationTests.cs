@@ -8,7 +8,7 @@ using Xunit;
 
 namespace BusinessLibIntegrationTests
 {
-    class CustomerIntegrationTests
+    public class CustomerIntegrationTests
     {
         [Fact]
         public void CanSearchForCustomer()
