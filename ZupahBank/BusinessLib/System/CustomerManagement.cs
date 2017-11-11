@@ -7,7 +7,7 @@ namespace BusinessLib.System
 {
     public class CustomerManagement : ICustomerManagement
     {
-        private readonly IRepository _repo;
+        private IRepository _repo;
 
         private List<Customer> _customers { get; set; }
 
