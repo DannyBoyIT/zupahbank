@@ -44,11 +44,8 @@ namespace BusinessLib.Repositories
         {
             try
             {
-                var customerId = 1001;
-                if (Accounts.Count != 0)
-                {
-                    customerId = Accounts.OrderByDescending(x => x.AccountId).Select(x => x.AccountId).First() + 1;
-                }
+                var customerId = (Customers.Count != 0) ?  Customers.OrderByDescending(ci => ci.CustomerId).FirstOrDefault().CustomerId + 1 : 1001; 
+
                 var customer = new Customer
                 {
                     CustomerId = customerId,
