@@ -18,7 +18,7 @@ namespace BusinessLib.System
 
         public List<Customer> AllCustomers()
         {
-            throw new NotImplementedException();
+            return _repo.GetAllCustomers();
         }
 
         public void Create(Customer customer)
@@ -35,7 +35,7 @@ namespace BusinessLib.System
 
         public void Delete(int customerId)
         {
-            throw new NotImplementedException();
+            _repo.DeleteCustomer(customerId);
         }
 
         public Customer Edit(int customerId)
