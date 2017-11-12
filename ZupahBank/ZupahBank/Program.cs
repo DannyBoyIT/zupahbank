@@ -12,8 +12,7 @@ namespace ZupahBank
     {
         static void Main(string[] args)
         {
-            //string path = @".\Files\bankdata-small.txt";
-            string path = @".\Files\bankdata.txt";
+            string path = @".\Files\" + args[0];            
             var fileService = new FileService(); 
             var repo = FileRepository.Instance;
             fileService.TransformFileToRepo(repo, path);
@@ -116,7 +115,7 @@ namespace ZupahBank
         {
             Console.WriteLine("> 0");
             Console.WriteLine("Avsluta och spara");
-            Console.WriteLine("Sparar till");
+            Console.WriteLine("Sparar till ");
             Console.WriteLine("Antal kunder: " + repo.NumberOfCustomers());
             Console.WriteLine("Antal konton: " + repo.NumberOfAccounts());
             Console.WriteLine("Totalt saldo: " + repo.TotalBalance());
@@ -129,8 +128,12 @@ namespace ZupahBank
             Console.WriteLine("* Sök kund *");
             Console.Write("Namn eller postort?");
             var inputSearch = Console.ReadLine();
-            var resultSearch = repo.GetCustomer(Convert.ToInt32(inputSearch));
-            Console.WriteLine(resultSearch.Address);
+            var resultSearch = repo.SearchCustomer(inputSearch);
+            foreach (var item in resultSearch)
+            {
+                Console.WriteLine(item.CustomerId + ": " + item.CustomerName);
+            }
+            
         }
 
         //Case 2
@@ -157,6 +160,15 @@ namespace ZupahBank
                     Console.WriteLine("Ort: " + customer.City);
                     Console.WriteLine("Region: " + customer.Region);
                     Console.WriteLine("Land: " + customer.Country);
+
+                    foreach (var account in repo.GetAllAccounts())
+                    {
+                        if (account.CustomerId == customer.CustomerId)
+                        {
+                            Console.WriteLine(account.AccountId + ": " + account.Balance);
+                        }
+                     
+                    }
                 }
 
                 else
@@ -169,8 +181,6 @@ namespace ZupahBank
             {
                 Console.WriteLine("Felaktig inmatning.");
             }
-
-            //TODO skriv ut alla konton för denna kund
         }
 
 
@@ -179,8 +189,6 @@ namespace ZupahBank
         {
             Console.WriteLine("> 3");
             Console.WriteLine("* Skapa kund *");
-            Console.Write("Kundnummer: ");
-            var inputCustomerId = Console.ReadLine();
             Console.Write("Namn: ");
             var inputCustomerName = Console.ReadLine();
             Console.Write("Personnummer: ");
@@ -197,7 +205,7 @@ namespace ZupahBank
             var inputCustomerCountry = Console.ReadLine();
             Console.Write("Phonenumber: ");
             var inputCustomerPhoneNumber = Console.ReadLine();
-            var newCustomer = repo.CreateCustomer(Convert.ToInt32(inputCustomerId), inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
+            var newCustomer = repo.CreateCustomer(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
         }
 
         //Case 4 
@@ -226,16 +234,15 @@ namespace ZupahBank
         static void CaseCreateAccount(FileRepository repo)
         {
             Console.WriteLine("> 5");
-            Console.WriteLine("* Skapa konto *");
-            Console.Write("Kontonummer: ");
-            var inputAccountId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("* Skapa konto *");          
             Console.Write("Kundnummer: ");
             var inputCustomerId = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Saldo: ");
-            var inputBalance = Convert.ToDecimal(Console.ReadLine());
-            repo.CreateAccount(inputAccountId, inputCustomerId, inputBalance);
+            //Console.Write("Saldo: ");
+            //var inputBalance = Convert.ToDecimal(Console.ReadLine());
+            repo.CreateAccount(inputCustomerId);
 
         }
+
         //Case 6
         static void CaseDeleteAccount(FileRepository repo)
         {
