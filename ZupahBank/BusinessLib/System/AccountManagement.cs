@@ -11,6 +11,12 @@ namespace BusinessLib.System
         {
             _repo = repo;
         }
+        
+        public int GetNumberOfAccounts()
+        {
+            return _repo.NumberOfAccounts();
+        }
+
         public List<Account> AllAccounts()
         {
             return _repo.GetAllAccounts();

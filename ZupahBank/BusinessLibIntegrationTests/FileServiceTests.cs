@@ -13,7 +13,8 @@ namespace BusinessLibIntegrationTests
         {
             var sut = new FileService();
             const string path = @".\Files\bankdata-small.txt";
-            sut.ReadFromFile(path);
+            var lines = sut.ReadFromFile(path);
+            Assert.NotEmpty(lines);
         }
 
         [Fact]
@@ -21,7 +22,8 @@ namespace BusinessLibIntegrationTests
         {
             var sut = new FileService();
             string[] text = { "Hello", "And", "Welcome" };
-            sut.WriteNewFile(text);
+            var fileName = sut.WriteNewFile(text);
+            Assert.False(string.IsNullOrEmpty(fileName));   
         }
 
         [Fact]
@@ -31,7 +33,10 @@ namespace BusinessLibIntegrationTests
             var repo = FileRepository.Instance;
             const string path = @".\Files\bankdata-small.txt";
             sut.TransformFileToRepo(repo, path);
-            //assert?
+            var accounts = repo.GetAllAccounts();
+            var customers = repo.GetAllCustomers();
+            Assert.NotEmpty(accounts);
+            Assert.NotEmpty(customers);
         }
 
         [Fact]
@@ -43,7 +48,8 @@ namespace BusinessLibIntegrationTests
             repo.CreateCustomer("Varor och sånt", "870310", "Hejsanvägen 5", "10520", "Stockholm");
             repo.CreateAccount(1000);
             repo.CreateAccount(1001);
-            sut.TransformRepoToFile(repo);
+            var fileName = sut.TransformRepoToFile(repo);
+            Assert.False(string.IsNullOrEmpty(fileName));
         }
     }
 }
