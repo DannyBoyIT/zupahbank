@@ -143,10 +143,16 @@ namespace ZupahBank
         {
             Console.WriteLine("> 2");
             Console.WriteLine("* Visa kundbild *");
-            Console.Write("Kundnummer? ");
 
-            var inputGetCustomer = Console.ReadLine();
-            bool successfullyParsed = int.TryParse(inputGetCustomer, out int customerId);
+            int customerId = 0;
+            bool successfullyParsed = false;
+            while (customerId == 0) { 
+                Console.Write("Kundnummer? ");
+
+                var inputGetCustomer = Console.ReadLine();
+                successfullyParsed = int.TryParse(inputGetCustomer, out customerId);
+            }
+
             if (successfullyParsed)
             {
                 var customer = bankSystem.customerManagement.GetCustomer(customerId);
@@ -163,7 +169,6 @@ namespace ZupahBank
                     Console.WriteLine("Land: " + customer.Country);
 
                     foreach (var account in bankSystem.accountManagement.AllAccounts())
-                        //foreach (var account in repo.GetAllAccounts())
                     {
                         if (account.CustomerId == customer.CustomerId)
                         {
@@ -206,7 +211,7 @@ namespace ZupahBank
             Console.Write("Phonenumber: ");
             var inputCustomerPhoneNumber = Console.ReadLine();
             var newCustomer = bankSystem.customerManagement.Create(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
-            //var newCustomer = repo.CreateCustomer(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
+            Console.WriteLine(newCustomer ? "Användaren skapad": "Användare ej skapad");
         }
 
         //Case 4 
