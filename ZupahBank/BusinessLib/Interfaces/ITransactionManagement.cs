@@ -9,6 +9,6 @@ namespace BusinessLib.Interfaces
 {
     interface ITransactionManagement
     {
-        void CreateTransaction(Account fromAccount, Account toAccount, decimal amount);
+        bool CreateTransaction(int fromAccountId, int toAccountId, decimal amount);
     }
 }

@@ -78,7 +78,7 @@ namespace ZupahBank
                 }
             } while (userInput != 0);
 
-            SaveChanges(repo);
+            CaseSaveChangesAndExit(fileService, repo);
             Console.ReadKey();
         }
 
@@ -111,11 +111,11 @@ namespace ZupahBank
         }
 
         //Case 0
-        static void SaveChanges(FileRepository repo)
+        static void CaseSaveChangesAndExit(FileService fileService, FileRepository repo)
         {
             Console.WriteLine("> 0");
             Console.WriteLine("Avsluta och spara");
-            Console.WriteLine("Sparar till ");
+            Console.WriteLine("Sparar till " + fileService.TransformRepoToFile(repo) + ".txt...");
             Console.WriteLine("Antal kunder: " + repo.NumberOfCustomers());
             Console.WriteLine("Antal konton: " + repo.NumberOfAccounts());
             Console.WriteLine("Totalt saldo: " + repo.TotalBalance());

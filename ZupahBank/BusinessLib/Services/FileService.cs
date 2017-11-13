@@ -27,13 +27,14 @@ namespace BusinessLib.Services
             }
         }
 
-        public void WriteNewFile(string[] file)
+        public string WriteNewFile(string[] file)
         {
             try
             {
                 var fileName = DateTime.Now.ToString("yyyyMMdd-Hmm");
                 var path = $".\\Files\\{fileName}.txt";
                 File.WriteAllLines(path, file);
+                return fileName;
             }
             catch (Exception e)
             {
@@ -86,7 +87,7 @@ namespace BusinessLib.Services
             }
         }
 
-        public void TransformRepoToFile(FileRepository repo)
+        public string TransformRepoToFile(FileRepository repo)
         {
             var lines = new List<string>();
             var customers = repo.GetAllCustomers();
@@ -104,6 +105,8 @@ namespace BusinessLib.Services
             }
 
             var file = lines.ToArray();
+
+            return WriteNewFile(file);
         }
     }
 }
