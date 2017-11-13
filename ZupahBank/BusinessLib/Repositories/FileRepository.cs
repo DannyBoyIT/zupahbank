@@ -63,17 +63,18 @@ namespace BusinessLib.Repositories
                 {
                     if (property.Name == nameof(customer.Region) || property.Name == nameof(customer.Country) ||
                         property.Name == nameof(customer.PhoneNumber)) continue;
-                    if (string.IsNullOrEmpty(property.GetValue(customer).ToString()))
+                    if (string.IsNullOrEmpty(property.GetValue(customer)?.ToString()))
                     {
                         throw new NullReferenceException();
                     }
                 }
                 Customers.Add(customer);
+                CreateAccount(customer.CustomerId);
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Obligatoriskt fält saknas");
                 return false;
             }
         }
@@ -96,7 +97,6 @@ namespace BusinessLib.Repositories
                 };
 
                 Customers.Add(customer);
-                CreateAccount(customer.CustomerId);
                 return true;
             }
             catch (Exception e)
@@ -202,12 +202,16 @@ namespace BusinessLib.Repositories
         {
             try
             {
-                var account = Accounts.First(x => x.AccountId == accountId);
-                return account.Balance;
+                var account = Accounts.FirstOrDefault(x => x.AccountId == accountId);
+
+                if (account != null)
+                    return account.Balance;
+                else
+                    return 0;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Inget sådant kontonummer");
                 throw;
             }
         }
