@@ -16,6 +16,11 @@ namespace BusinessLib.System
             _repo = repo;
         }
 
+        public int GetNumberOfCustomers()
+        {
+            return _repo.NumberOfCustomers();
+        }
+
         public List<Customer> AllCustomers()
         {
             return _repo.GetAllCustomers();
@@ -26,16 +31,21 @@ namespace BusinessLib.System
             _customers.Add(customer);
         }
 
-        public void Create(string customerName, string legalId, string address, string zipCode, string city,
+        public bool Create(string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
-            _repo.CreateCustomer(customerName, legalId, address, zipCode, city,
+            return _repo.CreateCustomer(customerName, legalId, address, zipCode, city,
                 region, country, phoneNumber);
         }
 
-        public void Delete(int customerId)
+        public bool Delete(int customerId)
         {
-            _repo.DeleteCustomer(customerId);
+            return _repo.DeleteCustomer(customerId);
+        }
+
+        public Customer GetCustomer(int customerId)
+        {
+            return _repo.GetCustomer(customerId);
         }
 
         public Customer Edit(int customerId)
@@ -47,7 +57,5 @@ namespace BusinessLib.System
         {
             return _repo.SearchCustomer(searchTerm);
         }
-        
-
     }
 }

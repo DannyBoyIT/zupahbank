@@ -10,12 +10,14 @@ namespace ZupahBank
 {
     public class Program
     {
+        private static BankSystem _system;
+
         static void Main(string[] args)
         {
             string path = @".\Files\" + args[0];            
             var fileService = new FileService(); 
             var repo = FileRepository.Instance;
-            var bankSystem = new BankSystem(repo);
+            _system = new BankSystem(repo);
             fileService.TransformFileToRepo(repo, path);
 
 
@@ -23,9 +25,9 @@ namespace ZupahBank
             Console.WriteLine("* VÄLKOMMEN TILL BANKAPP 1.0 *");
             Console.WriteLine("******************************");
             Console.WriteLine();
-            Console.WriteLine("Antal kunder: " + repo.NumberOfCustomers());
-            Console.WriteLine("Antal konton: " + repo.NumberOfAccounts());
-            Console.WriteLine("Totalt saldo: " + repo.TotalBalance());
+            Console.WriteLine("Antal kunder: " + _system.customerManagement.GetNumberOfCustomers());
+            Console.WriteLine("Antal konton: " + _system.accountManagement.GetNumberOfAccounts());
+            Console.WriteLine("Totalt saldo: " + _system.accountManagement.TotalBalance());
 
 
             int userInput = -1;
@@ -35,42 +37,42 @@ namespace ZupahBank
                 switch (userInput)
                 {
                     case 1:
-                        CaseSearchCustomer(bankSystem);
+                        CaseSearchCustomer(_system);
                         break;
 
                     case 2:
-                        CaseGetCustomer(bankSystem);
+                        CaseGetCustomer(_system);
                         break;
 
 
                     case 3:
-                        CaseCreateCustomer(bankSystem);
+                        CaseCreateCustomer(_system);
                         break;
 
 
                     case 4:
-                        CaseDeleteCustomer(bankSystem);
+                        CaseDeleteCustomer(_system);
                         break;
 
 
                     case 5:
-                        CaseCreateAccount(bankSystem);
+                        CaseCreateAccount(_system);
                         break;
 
                     case 6:
-                        CaseDeleteAccount(bankSystem);
+                        CaseDeleteAccount(_system);
                         break;
 
                     case 7:
-                        CaseDeposit(bankSystem);
+                        CaseDeposit(_system);
                         break;
 
                     case 8:
-                        CaseWithdrawal(bankSystem);
+                        CaseWithdrawal(_system);
                         break;
 
                     case 9:
-                        CaseTransaction(bankSystem);
+                        CaseTransaction(_system);
                         break;
 
                     case -1:
@@ -103,7 +105,6 @@ namespace ZupahBank
             if (char.IsDigit(result))
             {
                 return Convert.ToInt32(result.ToString());
-
             }
             else
                 return -1;
@@ -112,14 +113,14 @@ namespace ZupahBank
         }
 
         //Case 0
-        static void SaveChanges(BankSystem bankSystem)
+        static void CaseSaveChangesAndExit(FileService fileService, FileRepository repo)
         {
             Console.WriteLine("> 0");
             Console.WriteLine("Avsluta och spara");
             Console.WriteLine("Sparar till " + fileService.TransformRepoToFile(repo) + ".txt...");
-            Console.WriteLine("Antal kunder: " + repo.NumberOfCustomers());
-            Console.WriteLine("Antal konton: " + repo.NumberOfAccounts());
-            Console.WriteLine("Totalt saldo: " + repo.TotalBalance());
+            Console.WriteLine("Antal kunder: " + _system.customerManagement.GetNumberOfCustomers());
+            Console.WriteLine("Antal konton: " + _system.accountManagement.GetNumberOfAccounts());
+            Console.WriteLine("Totalt saldo: " + _system.accountManagement.TotalBalance());
         }
 
         //Case 1
@@ -145,11 +146,10 @@ namespace ZupahBank
             Console.Write("Kundnummer? ");
 
             var inputGetCustomer = Console.ReadLine();
-            bool successfullyParsed = int.TryParse(inputGetCustomer, out int getCustomer);
+            bool successfullyParsed = int.TryParse(inputGetCustomer, out int customerId);
             if (successfullyParsed)
             {
-                var customer = repo.GetCustomer(getCustomer);
-
+                var customer = bankSystem.customerManagement.GetCustomer(customerId);
 
                 if (customer != null)
                 {
@@ -168,8 +168,7 @@ namespace ZupahBank
                         if (account.CustomerId == customer.CustomerId)
                         {
                             Console.WriteLine(account.AccountId + ": " + account.Balance);
-                        }
-                     
+                        }                     
                     }
                 }
 
@@ -184,7 +183,6 @@ namespace ZupahBank
                 Console.WriteLine("Felaktig inmatning.");
             }
         }
-
 
         //Case 3
         static void CaseCreateCustomer(BankSystem bankSystem)
@@ -296,10 +294,7 @@ namespace ZupahBank
             var inputToAccount = Convert.ToInt32(Console.ReadLine());
             Console.Write("Belopp? ");
             var inputAmount = Convert.ToInt32(Console.ReadLine());
-            //bankSystem.transactionManagement.UpdateBalance(inputFromAccount, inputToAccount, inputAmount, inputAmount);
-            repo.UpdateBalance(inputFromAccount, inputToAccount, inputAmount, inputAmount);
-            //TODO Metod för Overföring()
-
+            bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
         }
     }
 }
