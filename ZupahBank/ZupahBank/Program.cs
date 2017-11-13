@@ -290,18 +290,46 @@ namespace ZupahBank
         {
             Console.WriteLine("> 9");
             Console.WriteLine("* Överföring *");
+
             Console.Write("Från? ");
-            var inputFromAccount = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Till? ");
-            var inputToAccount = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Belopp? ");
-            try { 
-                var inputAmount = Decimal.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
-            }
-            catch
+            int inputFromAccount = -1;
+            while (inputFromAccount == -1)
             {
-                Console.WriteLine("Invalid amount");
+                try
+                {
+                    inputFromAccount = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid account number");
+                }
             }
+
+            Console.Write("Till? ");
+            int inputToAccount = -1;
+            while(inputToAccount == -1) {
+                try { 
+                    inputToAccount = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid account number");
+                }
+            }
+
+            Console.Write("Belopp? ");
+            decimal inputAmount = 0m;
+            while(inputAmount == 0m) {
+                try
+                {
+                    inputAmount = Decimal.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid amount");
+                }
+            }
+         
             bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
         }
     }
