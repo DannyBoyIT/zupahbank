@@ -1,9 +1,6 @@
 ﻿using BusinessLib.System;
 using BusinessLib.Services;
 using System;
-using System.Text.RegularExpressions;
-using BusinessLib.Models;
-using System.Collections.Generic;
 using BusinessLib.Repositories;
 using System.Globalization;
 
@@ -21,7 +18,6 @@ namespace ZupahBank
             _system = new BankSystem(repo);
             fileService.TransformFileToRepo(repo, path);
 
-
             Console.WriteLine("******************************");
             Console.WriteLine("* VÄLKOMMEN TILL BANKAPP 1.0 *");
             Console.WriteLine("******************************");
@@ -29,7 +25,6 @@ namespace ZupahBank
             Console.WriteLine("Antal kunder: " + _system.customerManagement.GetNumberOfCustomers());
             Console.WriteLine("Antal konton: " + _system.accountManagement.GetNumberOfAccounts());
             Console.WriteLine("Totalt saldo: " + _system.accountManagement.TotalBalance());
-
 
             int userInput = -1;
             do
@@ -88,7 +83,6 @@ namespace ZupahBank
 
         static int DisplayMenu()
         {
-
             Console.WriteLine();
             Console.WriteLine("HUVUDMENY");
             Console.WriteLine("0) Avsluta och spara");
@@ -109,8 +103,6 @@ namespace ZupahBank
             }
             else
                 return -1;
-
-
         }
 
         //Case 0
@@ -136,58 +128,66 @@ namespace ZupahBank
             {
                 Console.WriteLine(item.CustomerId + ": " + item.CustomerName);
             }
-
         }
 
         //Case 2
         static void CaseGetCustomer(BankSystem bankSystem)
         {
-            Console.WriteLine("> 2");
-            Console.WriteLine("* Visa kundbild *");
+            bool successfullyParsed;
 
-            int customerId = 0;
-            bool successfullyParsed = false;
-            while (customerId == 0) { 
+            do
+            {
+                Console.WriteLine();
+                Console.WriteLine("> 2");
+                Console.WriteLine("* Visa kundbild *");
                 Console.Write("Kundnummer? ");
 
                 var inputGetCustomer = Console.ReadLine();
-                successfullyParsed = int.TryParse(inputGetCustomer, out customerId);
-            }
+                successfullyParsed = int.TryParse(inputGetCustomer, out int customerId);
 
-            if (successfullyParsed)
-            {
-                var customer = bankSystem.customerManagement.GetCustomer(customerId);
-
-                if (customer != null)
+                if (successfullyParsed)
                 {
-                    Console.WriteLine("Kundnummer: " + customer.CustomerId);
-                    Console.WriteLine("Namn: " + customer.CustomerName);
-                    Console.WriteLine("Personnummer: " + customer.LegalId);
-                    Console.WriteLine("Adress: " + customer.Address);
-                    Console.WriteLine("Postnummer: " + customer.ZipCode);
-                    Console.WriteLine("Ort: " + customer.City);
-                    Console.WriteLine("Region: " + customer.Region);
-                    Console.WriteLine("Land: " + customer.Country);
+                    var customer = bankSystem.customerManagement.GetCustomer(customerId);
 
-                    foreach (var account in bankSystem.accountManagement.AllAccounts())
+                    if (customer != null)
                     {
-                        if (account.CustomerId == customer.CustomerId)
+                        Console.WriteLine("Kundnummer: " + customer.CustomerId);
+                        Console.WriteLine("Namn: " + customer.CustomerName);
+                        Console.WriteLine("Personnummer: " + customer.LegalId);
+                        Console.WriteLine("Adress: " + customer.Address);
+                        Console.WriteLine("Postnummer: " + customer.ZipCode);
+                        Console.WriteLine("Ort: " + customer.City);
+                        Console.WriteLine("Region: " + customer.Region);
+                        Console.WriteLine("Land: " + customer.Country);
+
+                        foreach (var account in bankSystem.accountManagement.AllAccounts())
                         {
-                            Console.WriteLine(account.AccountId + ": " + account.Balance);
+                            if (account.CustomerId == customer.CustomerId)
+                            {
+                                Console.WriteLine(account.AccountId + ": " + account.Balance);
+                            }
                         }
                     }
-                }
 
+                    else
+                    {
+                        Console.WriteLine("Kunden finns inte.");
+                        Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+                        successfullyParsed = false;
+                        if (Console.ReadKey(true).KeyChar == '0')
+                            break;
+                    }
+                }
                 else
                 {
-                    Console.WriteLine("Kunden finns inte.");
+                    Console.WriteLine("Felaktig inmatning.");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
                 }
 
-            }
-            else
-            {
-                Console.WriteLine("Felaktig inmatning.");
-            }
+            } while (!successfullyParsed);
         }
 
         //Case 3
@@ -212,135 +212,192 @@ namespace ZupahBank
             Console.Write("Telefonnummer: ");
             var inputCustomerPhoneNumber = Console.ReadLine();
             var newCustomer = bankSystem.customerManagement.Create(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
-            Console.WriteLine(newCustomer ? "Användaren skapad": "Användare ej skapad");
+            Console.WriteLine(newCustomer ? "Användaren skapad" : "Användare ej skapad");
         }
 
         //Case 4 
         static void CaseDeleteCustomer(BankSystem bankSystem)
         {
-            Console.WriteLine("> 4");
-            Console.WriteLine("* Ta bort kund *");
-            Console.Write("Kundnummer: ");
-            var inputCustomerId = Console.ReadLine();
-            bool successfullyParsed = int.TryParse(inputCustomerId, out int deletedCustomerId);
-            if (successfullyParsed)
+            bool successfullyParsed;
+
+            do
             {
-                if (bankSystem.customerManagement.Delete(deletedCustomerId))
-                //if (repo.DeleteCustomer(deletedCustomerId))
+                Console.WriteLine();
+                Console.WriteLine("> 4");
+                Console.WriteLine("* Ta bort kund *");
+                Console.Write("Kundnummer: ");
+                var inputCustomerId = Console.ReadLine();
+                successfullyParsed = int.TryParse(inputCustomerId, out int deletedCustomerId);
+                if (successfullyParsed)
                 {
-                    Console.WriteLine("Kunden " + deletedCustomerId + " är borttagen.");
+                    if (bankSystem.customerManagement.Delete(deletedCustomerId))
+                    {
+                        Console.WriteLine("Kunden " + deletedCustomerId + " är borttagen.");
+                    }
+                    else
+                        Console.WriteLine("Felaktigt kundnummer");
                 }
                 else
-                    Console.WriteLine("Felaktigt kundnummer");
-            }
-            else
-                Console.WriteLine("Felaktig inmatning");
+                {
+                    Console.WriteLine("Felaktig inmatning");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
 
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
+                }
+
+            } while (!successfullyParsed);
         }
 
         //Case 5
         static void CaseCreateAccount(BankSystem bankSystem)
         {
-            Console.WriteLine();
-            Console.WriteLine("> 5");
-            Console.WriteLine("* Skapa konto *");
-            Console.Write("Kundnummer: ");
-            var inputCustomerId = Console.ReadLine();
-            bool successfullyParsed = int.TryParse(inputCustomerId, out int customerId);
-            if (successfullyParsed)
+            bool successfullyParsed;
+
+            do
             {
-                var customer = bankSystem.customerManagement.GetCustomer(customerId);
-                if (customer != null)
+                Console.WriteLine();
+                Console.WriteLine("> 5");
+                Console.WriteLine("* Skapa konto *");
+                Console.Write("Kundnummer: ");
+                var inputCustomerId = Console.ReadLine();
+                successfullyParsed = int.TryParse(inputCustomerId, out int customerId);
+                if (successfullyParsed)
                 {
-                    var result = bankSystem.accountManagement.Create(customerId);
-                    Console.WriteLine(result
-                        ? $"Nytt konto för kundnummer {customerId} skapat."
-                        : "Nåt gick fel, försök igen");
+                    var customer = bankSystem.customerManagement.GetCustomer(customerId);
+                    if (customer != null)
+                    {
+                        var result = bankSystem.accountManagement.Create(customerId);
+                        Console.WriteLine(result
+                            ? $"Nytt konto för kundnummer {customerId} skapat."
+                            : "Nåt gick fel, försök igen");
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Felaktigt kundnummer");
+                        Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                        if (Console.ReadKey(true).KeyChar == '0')
+                            break;
+                    }
                 }
                 else
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Felaktigt kundnummer");
-                    Console.WriteLine("Försök igen");
+                    Console.WriteLine("Felaktig inmatning");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
                 }
 
-            }
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("Felaktig inmatning");
-            }
-
-
-
+            } while (!successfullyParsed);
         }
 
         //Case 6
         static void CaseDeleteAccount(BankSystem bankSystem)
         {
-            Console.WriteLine("> 6");
-            Console.WriteLine("* Ta bort konto *");
-            Console.Write("Kontonummer: ");
-            var inputAccountId = Console.ReadLine();
-            if (int.TryParse(inputAccountId, out int value))
+            bool successfullyParsedAccountId;
+
+            do
             {
-                var response = bankSystem.accountManagement.Delete(Convert.ToInt32(inputAccountId));
-                Console.WriteLine(response ? "Kontot raderat" : "Saldot på kontot är ej noll, går ej radera");
-            }
-            else
-            {
-                Console.WriteLine("Felaktigt nummer, kontrollera att du skrivit in rätt kontonummer.");
-            }
+                Console.WriteLine();
+                Console.WriteLine("> 6");
+                Console.WriteLine("* Ta bort konto *");
+                Console.Write("Kontonummer: ");
+                var inputAccountId = Console.ReadLine();
+                successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
+                if (successfullyParsedAccountId)
+                {
+                    var response = bankSystem.accountManagement.Delete(accountId);
+                    Console.WriteLine(response ? "Kontot borttaget." : "Saldot på kontot är ej noll, går ej att radera.");
+                }
+                else
+                {
+                    Console.WriteLine("Felaktigt nummer, kontrollera att du skrivit in rätt kontonummer.");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
+                }
+
+            } while (!successfullyParsedAccountId);
         }
 
         //Case 7
         static void CaseDeposit(BankSystem bankSystem)
         {
-            Console.WriteLine("> 7");
-            Console.WriteLine("* Insättning *");
-            Console.Write("Till konto? ");
-            var inputAccountId = Console.ReadLine();
-            Console.Write("Belopp? ");
-            var inputAmount = Console.ReadLine();
-            bool successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
-            bool successfullyParsedAmount = decimal.TryParse(inputAmount, out decimal amount);
+            bool successfullyParsedAccountId;
+            bool successfullyParsedAmount;
 
-            if(successfullyParsedAccountId && successfullyParsedAmount)
+            do
             {
-                var withdrawalAccepted = bankSystem.accountManagement.Deposit(accountId, amount);
                 Console.WriteLine();
-                Console.WriteLine(withdrawalAccepted ? $"Instättningen på: {inputAmount}kr till konto: {inputAccountId} lyckades." : $"Insättningen misslyckades. Kontrollera att du anget rätt kontonummer ({inputAccountId}).");
-            }
+                Console.WriteLine("> 7");
+                Console.WriteLine("* Insättning *");
+                Console.Write("Till konto? ");
+                var inputAccountId = Console.ReadLine();
+                Console.Write("Belopp? ");
+                var inputAmount = Console.ReadLine();
+                successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
+                successfullyParsedAmount = decimal.TryParse(inputAmount, out decimal amount);
 
-            else
-            {
-                Console.WriteLine("Felaktig inmatning. Kontrollera att du angett rätt kontonummber och summa.");
-            }
+                if (successfullyParsedAccountId && successfullyParsedAmount)
+                {
+                    var withdrawalAccepted = bankSystem.accountManagement.Deposit(accountId, amount);
+                    Console.WriteLine();
+                    Console.WriteLine(withdrawalAccepted ? $"Instättningen på: {inputAmount}kr till konto: {inputAccountId} lyckades." : $"Insättningen misslyckades. Kontrollera att du anget rätt kontonummer ({inputAccountId}).");
+                }
+
+                else
+                {
+                    Console.WriteLine("Felaktig inmatning. Kontrollera att du angett rätt kontonummber och summa.");
+
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
+                }
+
+            } while (!successfullyParsedAccountId || !successfullyParsedAmount);
         }
 
         //Case 8
         static void CaseWithdrawal(BankSystem bankSystem)
         {
-            Console.WriteLine("> 8");
-            Console.WriteLine("* Uttag *");
-            Console.Write("Från konto? ");
-            var inputAccountId = Console.ReadLine();
-            Console.Write("Belopp? ");
-            var inputAmount = Console.ReadLine();
-            bool successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
-            bool successfullyParsedAmount = decimal.TryParse(inputAmount, out decimal amount);
+            bool successfullyParsedAccountId;
+            bool successfullyParsedAmount;
 
-            if (successfullyParsedAccountId && successfullyParsedAmount)
+            do
             {
-                var withdrawalAccepted = bankSystem.accountManagement.Withdraw(accountId, amount);
                 Console.WriteLine();
-                Console.WriteLine(withdrawalAccepted ? $"Uttag på: {amount}kr från konto: {accountId} lyckades." : $"Uttaget misslyckades. Kontrollera att dina tillgångar (på konto: {accountId}) tillåter uttaget och att kontonumret är korrekt.");
-            }
+                Console.WriteLine("> 8");
+                Console.WriteLine("* Uttag *");
+                Console.Write("Från konto? ");
+                var inputAccountId = Console.ReadLine();
+                Console.Write("Belopp? ");
+                var inputAmount = Console.ReadLine();
+                successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
+                successfullyParsedAmount = decimal.TryParse(inputAmount, out decimal amount);
 
-            else
-            {
-                Console.WriteLine("Felaktig inmatning. Kontrollera att du angett rätt kontonummber och summa.");
-            }
+                if (successfullyParsedAccountId && successfullyParsedAmount)
+                {
+                    var withdrawalAccepted = bankSystem.accountManagement.Withdraw(accountId, amount);
+                    Console.WriteLine();
+                    Console.WriteLine(withdrawalAccepted ? $"Uttag på: {amount}kr från konto: {accountId} lyckades." : $"Uttaget misslyckades. Kontrollera att dina tillgångar (på konto: {accountId}) tillåter uttaget och att kontonumret är korrekt.");
+                }
+
+                else
+                {
+                    Console.WriteLine("Felaktig inmatning. Kontrollera att du angett rätt kontonummber och summa.");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
+                }
+
+            } while (!successfullyParsedAccountId || !successfullyParsedAmount);
         }
 
         //Case 9
@@ -364,9 +421,11 @@ namespace ZupahBank
             }
 
             int inputToAccount = -1;
-            while(inputToAccount == -1) {
+            while (inputToAccount == -1)
+            {
                 Console.Write("Till? ");
-                try { 
+                try
+                {
                     inputToAccount = Convert.ToInt32(Console.ReadLine());
                 }
                 catch
@@ -376,8 +435,9 @@ namespace ZupahBank
             }
 
             decimal inputAmount = 0m;
-            while(inputAmount == 0m) {
-            Console.Write("Belopp? ");
+            while (inputAmount == 0m)
+            {
+                Console.Write("Belopp? ");
                 try
                 {
                     inputAmount = Decimal.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
@@ -387,10 +447,10 @@ namespace ZupahBank
                     Console.WriteLine("Ogiltig summa");
                 }
             }
-         
+
             var transactionResult = bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
 
-            Console.WriteLine(transactionResult ? "Transaktion klar": "Transaktion misslyckad");
+            Console.WriteLine(transactionResult ? "Transaktion klar" : "Transaktion misslyckad");
         }
     }
 }
