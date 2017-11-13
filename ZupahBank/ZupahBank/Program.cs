@@ -205,6 +205,7 @@ namespace ZupahBank
             Console.Write("Phonenumber: ");
             var inputCustomerPhoneNumber = Console.ReadLine();
             var newCustomer = bankSystem.customerManagement.Create(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
+            Console.WriteLine(newCustomer ? "Användaren skapad": "Användare ej skapad");
         }
 
         //Case 4 
