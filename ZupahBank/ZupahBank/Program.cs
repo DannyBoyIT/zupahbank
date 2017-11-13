@@ -265,12 +265,23 @@ namespace ZupahBank
             Console.WriteLine("> 7");
             Console.WriteLine("* Insättning *");
             Console.Write("Till konto? ");
-            var inputAccountId = Convert.ToInt32(Console.ReadLine());
+            var inputAccountId = Console.ReadLine();
             Console.Write("Belopp? ");
-            var inputAmount = Convert.ToInt32(Console.ReadLine());
-            var withdrawalAccepted = bankSystem.accountManagement.Deposit(inputAccountId, inputAmount);
-            Console.WriteLine();
-            Console.WriteLine(withdrawalAccepted ? $"Instättningen på: {inputAmount}kr till konto: {inputAccountId} lyckades." : $"Insättningen misslyckades. Kontrollera att du anget rätt kontonummer ({inputAccountId}).");
+            var inputAmount = Console.ReadLine();
+            bool successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
+            bool successfullyParsedAmount = decimal.TryParse(inputAmount, out decimal amount);
+
+            if(successfullyParsedAccountId && successfullyParsedAmount)
+            {
+                var withdrawalAccepted = bankSystem.accountManagement.Deposit(accountId, amount);
+                Console.WriteLine();
+                Console.WriteLine(withdrawalAccepted ? $"Instättningen på: {inputAmount}kr till konto: {inputAccountId} lyckades." : $"Insättningen misslyckades. Kontrollera att du anget rätt kontonummer ({inputAccountId}).");
+            }
+
+            else
+            {
+                Console.WriteLine("Felaktig inmatning. Kontrollera att du angett rätt kontonummber och summa.");
+            }
         }
 
         //Case 8
@@ -279,12 +290,23 @@ namespace ZupahBank
             Console.WriteLine("> 8");
             Console.WriteLine("* Uttag *");
             Console.Write("Från konto? ");
-            var inputAccountId = Convert.ToInt32(Console.ReadLine());
+            var inputAccountId = Console.ReadLine();
             Console.Write("Belopp? ");
-            var inputAmount = Convert.ToInt32(Console.ReadLine());
-            var withdrawalAccepted = bankSystem.accountManagement.Withdraw(inputAccountId, inputAmount);
-            Console.WriteLine();
-            Console.WriteLine(withdrawalAccepted ? $"Uttag på: {inputAmount}kr från konto: {inputAccountId} lyckades." : $"Uttaget misslyckades. Kontrollera att dina tillgångar (på konto: {inputAccountId}) tillåter uttaget.");
+            var inputAmount = Console.ReadLine();
+            bool successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
+            bool successfullyParsedAmount = decimal.TryParse(inputAmount, out decimal amount);
+
+            if (successfullyParsedAccountId && successfullyParsedAmount)
+            {
+                var withdrawalAccepted = bankSystem.accountManagement.Withdraw(accountId, amount);
+                Console.WriteLine();
+                Console.WriteLine(withdrawalAccepted ? $"Uttag på: {amount}kr från konto: {accountId} lyckades." : $"Uttaget misslyckades. Kontrollera att dina tillgångar (på konto: {accountId}) tillåter uttaget och att kontonumret är korrekt.");
+            }
+
+            else
+            {
+                Console.WriteLine("Felaktig inmatning. Kontrollera att du angett rätt kontonummber och summa.");
+            }
         }
 
         //Case 9
