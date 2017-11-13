@@ -199,17 +199,17 @@ namespace ZupahBank
             var inputCustomerName = Console.ReadLine();
             Console.Write("Personnummer: ");
             var inputCustomerLegalId = Console.ReadLine();
-            Console.Write("Address: ");
+            Console.Write("Adress: ");
             var inputCustomerAddress = Console.ReadLine();
-            Console.Write("ZipCode: ");
+            Console.Write("Postkod: ");
             var inputCustomerZipCode = Console.ReadLine();
-            Console.Write("City: ");
+            Console.Write("Ort: ");
             var inputCustomerCity = Console.ReadLine();
             Console.Write("Region: ");
             var inputCustomerRegion = Console.ReadLine();
-            Console.Write("Country: ");
+            Console.Write("Land: ");
             var inputCustomerCountry = Console.ReadLine();
-            Console.Write("Phonenumber: ");
+            Console.Write("Telefonnummer: ");
             var inputCustomerPhoneNumber = Console.ReadLine();
             var newCustomer = bankSystem.customerManagement.Create(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
             Console.WriteLine(newCustomer ? "Användaren skapad": "Användare ej skapad");
@@ -225,7 +225,6 @@ namespace ZupahBank
             bool successfullyParsed = int.TryParse(inputCustomerId, out int deletedCustomerId);
             if (successfullyParsed)
             {
-                bankSystem.customerManagement.Delete(deletedCustomerId);
                 if (bankSystem.customerManagement.Delete(deletedCustomerId))
                 //if (repo.DeleteCustomer(deletedCustomerId))
                 {
