@@ -22,9 +22,9 @@ namespace BusinessLibIntegrationTests
             var sut = new BankSystem(repo);
             var accountNo = 13130;
 
-            Assert.Equal(false, sut.accountManagement.Withdraw(accountNo, 5000));
-            Assert.Equal(false, sut.accountManagement.Withdraw(accountNo, -5000));
-            Assert.Equal(false, sut.accountManagement.Deposit(accountNo, -5000));
+            Assert.False( sut.accountManagement.Withdraw(accountNo, 5000));
+            Assert.False( sut.accountManagement.Withdraw(accountNo, -5000));
+            Assert.False( sut.accountManagement.Deposit(accountNo, -5000));
 
             sut.accountManagement.Withdraw(accountNo, 1000);
             var account = repo.GetAccount(accountNo);
