@@ -29,7 +29,13 @@ namespace BusinessLib.System
          
         public bool Delete(int accountId)
         {
-            return _repo.DeleteAccount(accountId);
+            var allAccounts = _repo.GetAllAccounts();
+            var acc = allAccounts.Find(x => x.AccountId == accountId);
+            if (acc.Balance == 0)
+            {
+                return _repo.DeleteAccount(accountId);
+            }
+            return false;
         }
 
         public bool Withdraw(int accountId, decimal amount)

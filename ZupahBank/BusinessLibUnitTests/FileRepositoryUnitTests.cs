@@ -4,15 +4,16 @@ using Xunit;
 
 namespace BusinessLibUnitTests
 {
-    public class FileRepositoryTests
+    public class FileRepositoryUnitTests
     {
         [Fact]
         public void CanCountNumberOfAccounts()
         {
             var sut = FileRepository.Instance;
+            var expectedResult = sut.NumberOfAccounts() + 2;
             sut.CreateAccount(1000);
             sut.CreateAccount(1001);
-            Assert.Equal(2, sut.NumberOfAccounts());
+            Assert.Equal(expectedResult, sut.NumberOfAccounts());
         }
 
         [Fact]
@@ -29,26 +30,43 @@ namespace BusinessLibUnitTests
         public void CanCountTotalBalance()
         {
             var sut = FileRepository.Instance;
+            var expectedResult = sut.TotalBalance() + 1500;
             sut.CreateAccount(1001, 1000, 1000);
             sut.CreateAccount(1001, 1000, 500);
-            Assert.Equal(1500, sut.TotalBalance());
+            Assert.Equal(expectedResult, sut.TotalBalance());
+        }
+        [Fact]
+        public void GetAllCustomersReturnsCustomerList()
+        {
+            var sut = FileRepository.Instance;
+            sut.CreateCustomer("Isabellas Varor", "870310", "Hejsanvägen 5", "10520", "Stockholm");
+            sut.CreateCustomer("Varor och sånt", "870310", "Hejsanvägen 5", "10520", "Stockholm");
+            var customerList = sut.GetAllCustomers();
+            Assert.NotEmpty(customerList);
         }
 
         [Fact]
-        public void CanCreateNewAccount()
+        public void CanSearchCustomerWithString()
         {
             var sut = FileRepository.Instance;
-            bool response = sut.CreateAccount(1000);
-            Assert.True(response);
+            const string expectedResult = "Kalle Kallesson";
+            bool response = sut.CreateCustomer(1234, expectedResult, "801010-1010", "Långgatan 1", "11122", "Huvudsta", "Stockholm", "Sverige", "010111222");
+            var customers = sut.SearchCustomer("Kalle");
+
+            var kalle = customers.First(x => x.CustomerName.Contains("Kalle"));
+            Assert.Equal(expectedResult, kalle.CustomerName);
         }
 
         [Fact]
-        public void CanCreateNewAccountWithId()
+        public void CanGetCustomerById()
         {
             var sut = FileRepository.Instance;
-            bool response = sut.CreateAccount(1001, 1000, 1000);
-            Assert.True(response);
+            const int expectedResult = 1234;
+            bool response = sut.CreateCustomer(expectedResult, "Kalle Kallesson", "801010-1010", "Långgatan 1", "11122", "Huvudsta", "Stockholm", "Sverige", "010111222");
+            var customer = sut.GetCustomer(expectedResult);
+            Assert.Equal(expectedResult, customer.CustomerId);
         }
+
         [Fact]
         public void CanCreateNewCustomer()
         {
@@ -73,15 +91,19 @@ namespace BusinessLibUnitTests
         }
 
         [Fact]
-        public void CanSearchForCustomerName()
+        public void CanCreateNewAccount()
         {
             var sut = FileRepository.Instance;
-            const string expectedResult = "Kalle Kallesson";
-            bool response = sut.CreateCustomer(1234, expectedResult, "801010-1010", "Långgatan 1", "11122", "Huvudsta", "Stockholm", "Sverige", "010111222");
-            var customers = sut.SearchCustomer("Kalle");
+            bool response = sut.CreateAccount(1000);
+            Assert.True(response);
+        }
 
-            var kalle = customers.First(x => x.CustomerName.Contains("Kalle"));
-            Assert.Equal(expectedResult, kalle.CustomerName);
+        [Fact]
+        public void CanCreateNewAccountWithId()
+        {
+            var sut = FileRepository.Instance;
+            bool response = sut.CreateAccount(1001, 1000, 1000);
+            Assert.True(response);
         }
     }
 }
