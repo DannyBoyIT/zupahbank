@@ -209,56 +209,81 @@ namespace ZupahBank
         //Case 4 
         static void CaseDeleteCustomer(BankSystem bankSystem)
         {
-            Console.WriteLine("> 4");
-            Console.WriteLine("* Ta bort kund *");
-            Console.Write("Kundnummer: ");
-            var inputCustomerId = Console.ReadLine();
-            bool successfullyParsed = int.TryParse(inputCustomerId, out int deletedCustomerId);
-            if (successfullyParsed)
+            bool successfullyParsed;
+
+            do
             {
-                if (bankSystem.customerManagement.Delete(deletedCustomerId))
-                //if (repo.DeleteCustomer(deletedCustomerId))
+                Console.WriteLine();
+                Console.WriteLine("> 4");
+                Console.WriteLine("* Ta bort kund *");
+                Console.Write("Kundnummer: ");
+                var inputCustomerId = Console.ReadLine();
+                successfullyParsed = int.TryParse(inputCustomerId, out int deletedCustomerId);
+                if (successfullyParsed)
                 {
-                    Console.WriteLine("Kunden " + deletedCustomerId + " är borttagen.");
+                    if (bankSystem.customerManagement.Delete(deletedCustomerId))
+                    {
+                        Console.WriteLine("Kunden " + deletedCustomerId + " är borttagen.");
+                    }
+                    else
+                        Console.WriteLine("Felaktigt kundnummer");
                 }
                 else
-                    Console.WriteLine("Felaktigt kundnummer");
-            }
-            else
-                Console.WriteLine("Felaktig inmatning");
+                {
+                    Console.WriteLine("Felaktig inmatning");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
+                }                   
+
+            } while(!successfullyParsed);
         }
 
         //Case 5
         static void CaseCreateAccount(BankSystem bankSystem)
         {
-            Console.WriteLine();
-            Console.WriteLine("> 5");
-            Console.WriteLine("* Skapa konto *");
-            Console.Write("Kundnummer: ");
-            var inputCustomerId = Console.ReadLine();
-            bool successfullyParsed = int.TryParse(inputCustomerId, out int customerId);
-            if (successfullyParsed)
+            bool successfullyParsed;
+
+            do
             {
-                var customer = bankSystem.customerManagement.GetCustomer(customerId);
-                if (customer != null)
+                Console.WriteLine();
+                Console.WriteLine("> 5");
+                Console.WriteLine("* Skapa konto *");
+                Console.Write("Kundnummer: ");
+                var inputCustomerId = Console.ReadLine();
+                successfullyParsed = int.TryParse(inputCustomerId, out int customerId);
+                if (successfullyParsed)
                 {
-                    var result = bankSystem.accountManagement.Create(customerId);
-                    Console.WriteLine(result
-                        ? $"Nytt konto för kundnummer {customerId} skapat."
-                        : "Nåt gick fel, försök igen");
+                    var customer = bankSystem.customerManagement.GetCustomer(customerId);
+                    if (customer != null)
+                    {
+                        var result = bankSystem.accountManagement.Create(customerId);
+                        Console.WriteLine(result
+                            ? $"Nytt konto för kundnummer {customerId} skapat."
+                            : "Nåt gick fel, försök igen");
+                    }
+                    else
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Felaktigt kundnummer");
+                        Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                        if (Console.ReadKey(true).KeyChar == '0')
+                            break;
+                    }
                 }
                 else
                 {
                     Console.WriteLine();
-                    Console.WriteLine("Felaktigt kundnummer");
-                    Console.WriteLine("Försök igen");
+                    Console.WriteLine("Felaktig inmatning");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
                 }
-            }
-            else
-            {
-                Console.WriteLine();
-                Console.WriteLine("Felaktig inmatning");
-            }
+
+            } while (!successfullyParsed);
         }
 
         //Case 6
@@ -277,7 +302,7 @@ namespace ZupahBank
                 if (successfullyParsedAccountId)
                 {
                     var response = bankSystem.accountManagement.Delete(accountId);
-                    Console.WriteLine(response ? "Kontot raderat" : "Saldot på kontot är ej noll, går ej radera");
+                    Console.WriteLine(response ? "Kontot borttaget." : "Saldot på kontot är ej noll, går ej att radera.");
                 }
                 else
                 {
