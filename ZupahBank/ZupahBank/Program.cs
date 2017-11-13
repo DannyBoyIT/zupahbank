@@ -254,9 +254,15 @@ namespace ZupahBank
             Console.WriteLine("* Ta bort konto *");
             Console.Write("Kontonummer: ");
             var inputAccountId = Console.ReadLine();
-            //repo.DeleteAccount(Convert.ToInt32(inputAccountId));
-            var response = bankSystem.accountManagement.Delete(Convert.ToInt32(inputAccountId));
-            Console.WriteLine(response ? "Kontot raderat" : "Saldot på kontot är ej noll, går ej radera");
+            if (int.TryParse(inputAccountId, out int value))
+            {
+                var response = bankSystem.accountManagement.Delete(Convert.ToInt32(inputAccountId));
+                Console.WriteLine(response ? "Kontot raderat" : "Saldot på kontot är ej noll, går ej radera");
+            }
+            else
+            {
+                Console.WriteLine("Felaktigt nummer, kontrollera att du skrivit in rätt kontonummer.");
+            }
         }
 
         //Case 7
