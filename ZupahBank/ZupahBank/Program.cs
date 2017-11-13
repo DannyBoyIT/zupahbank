@@ -267,9 +267,11 @@ namespace ZupahBank
             var inputAccountId = Convert.ToInt32(Console.ReadLine());
             Console.Write("Belopp? ");
             var inputAmount = Convert.ToInt32(Console.ReadLine());
-
-            //TODO metod för Insättning();
+            var withdrawalAccepted = bankSystem.accountManagement.Deposit(inputAccountId, inputAmount);
+            Console.WriteLine();
+            Console.WriteLine(withdrawalAccepted ? $"Instättningen på: {inputAmount}kr till konto: {inputAccountId} lyckades." : $"Insättningen misslyckades. Kontrollera att du anget rätt kontonummer ({inputAccountId}).");
         }
+
         //Case 8
         static void CaseWithdrawal(BankSystem bankSystem)
         {
@@ -280,8 +282,8 @@ namespace ZupahBank
             Console.Write("Belopp? ");
             var inputAmount = Convert.ToInt32(Console.ReadLine());
             var withdrawalAccepted = bankSystem.accountManagement.Withdraw(inputAccountId, inputAmount);
-
-            Console.WriteLine(withdrawalAccepted ? "Withdrawal successful." : "Withdrawal not accepted. Check your account balance.");
+            Console.WriteLine();
+            Console.WriteLine(withdrawalAccepted ? $"Uttag på: {inputAmount}kr från konto: {inputAccountId} lyckades." : $"Uttaget misslyckades. Kontrollera att dina tillgångar (på konto: {inputAccountId}) tillåter uttaget.");
         }
 
         //Case 9
