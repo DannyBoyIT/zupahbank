@@ -69,6 +69,7 @@ namespace BusinessLib.Repositories
                     }
                 }
                 Customers.Add(customer);
+                CreateAccount(customer.CustomerId);
                 return true;
             }
             catch (Exception e)
@@ -96,7 +97,6 @@ namespace BusinessLib.Repositories
                 };
 
                 Customers.Add(customer);
-                CreateAccount(customer.CustomerId);
                 return true;
             }
             catch (Exception e)

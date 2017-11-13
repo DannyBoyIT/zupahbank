@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using BusinessLib.Models;
 using System.Collections.Generic;
 using BusinessLib.Repositories;
+using System.Globalization;
 
 namespace ZupahBank
 {
@@ -325,13 +326,49 @@ namespace ZupahBank
         {
             Console.WriteLine("> 9");
             Console.WriteLine("* Överföring *");
-            Console.Write("Från? ");
-            var inputFromAccount = Convert.ToInt32(Console.ReadLine());
-            Console.Write("Till? ");
-            var inputToAccount = Convert.ToInt32(Console.ReadLine());
+
+            int inputFromAccount = -1;
+            while (inputFromAccount == -1)
+            {
+                Console.Write("Från? ");
+                try
+                {
+                    inputFromAccount = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Ogiltigt kontonummer");
+                }
+            }
+
+            int inputToAccount = -1;
+            while(inputToAccount == -1) {
+                Console.Write("Till? ");
+                try { 
+                    inputToAccount = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Ogiltigt kontonummer");
+                }
+            }
+
+            decimal inputAmount = 0m;
+            while(inputAmount == 0m) {
             Console.Write("Belopp? ");
-            var inputAmount = Convert.ToInt32(Console.ReadLine());
-            bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
+                try
+                {
+                    inputAmount = Decimal.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    Console.WriteLine("Ogiltig summa");
+                }
+            }
+         
+            var transactionResult = bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
+
+            Console.WriteLine(transactionResult ? "Transaktion klar": "Transaktion misslyckad");
         }
     }
 }
