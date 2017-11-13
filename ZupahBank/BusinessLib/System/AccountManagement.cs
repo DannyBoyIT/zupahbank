@@ -62,5 +62,10 @@ namespace BusinessLib.System
 
             return true;
         }
+
+        public decimal TotalBalance()
+        {
+            return _repo.TotalBalance();
+        }
     }
 }
