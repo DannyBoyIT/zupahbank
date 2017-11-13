@@ -225,7 +225,6 @@ namespace ZupahBank
             bool successfullyParsed = int.TryParse(inputCustomerId, out int deletedCustomerId);
             if (successfullyParsed)
             {
-                bankSystem.customerManagement.Delete(deletedCustomerId);
                 if (bankSystem.customerManagement.Delete(deletedCustomerId))
                 //if (repo.DeleteCustomer(deletedCustomerId))
                 {
