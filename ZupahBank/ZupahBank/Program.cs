@@ -97,8 +97,8 @@ namespace ZupahBank
             Console.WriteLine("4) Ta bort kund");
             Console.WriteLine("5) Skapa konto");
             Console.WriteLine("6) Ta bort konto");
-            Console.WriteLine("7) Uttag");
-            Console.WriteLine("8) Insättning");
+            Console.WriteLine("7) Insättning");
+            Console.WriteLine("8) Uttag");
             Console.WriteLine("9) Överföring");
             var result = Console.ReadKey(true).KeyChar;
 
@@ -279,10 +279,11 @@ namespace ZupahBank
             var inputAccountId = Convert.ToInt32(Console.ReadLine());
             Console.Write("Belopp? ");
             var inputAmount = Convert.ToInt32(Console.ReadLine());
-            //TODO metod för Uttag()
+            var withdrawalAccepted = bankSystem.accountManagement.Withdraw(inputAccountId, inputAmount);
 
-
+            Console.WriteLine(withdrawalAccepted ? "Withdrawal successful." : "Withdrawal not accepted. Check your account balance.");
         }
+
         //Case 9
         static void CaseTransaction(BankSystem bankSystem)
         {
