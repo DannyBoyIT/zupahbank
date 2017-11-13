@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using BusinessLib.Models;
 using System.Collections.Generic;
 using BusinessLib.Repositories;
+using System.Globalization;
 
 namespace ZupahBank
 {
@@ -294,7 +295,13 @@ namespace ZupahBank
             Console.Write("Till? ");
             var inputToAccount = Convert.ToInt32(Console.ReadLine());
             Console.Write("Belopp? ");
-            var inputAmount = Convert.ToInt32(Console.ReadLine());
+            try { 
+                var inputAmount = Decimal.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid amount");
+            }
             bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
         }
     }
