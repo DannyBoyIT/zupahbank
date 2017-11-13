@@ -15,7 +15,7 @@ namespace ZupahBank
 
         static void Main(string[] args)
         {
-            string path = @".\Files\" + args[0];            
+            string path = @".\Files\bankdata-small.txt" + args[0];            
             var fileService = new FileService(); 
             var repo = FileRepository.Instance;
             _system = new BankSystem(repo);
@@ -291,46 +291,48 @@ namespace ZupahBank
             Console.WriteLine("> 9");
             Console.WriteLine("* Överföring *");
 
-            Console.Write("Från? ");
             int inputFromAccount = -1;
             while (inputFromAccount == -1)
             {
+                Console.Write("Från? ");
                 try
                 {
                     inputFromAccount = Convert.ToInt32(Console.ReadLine());
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid account number");
+                    Console.WriteLine("Ogiltigt kontonummer");
                 }
             }
 
-            Console.Write("Till? ");
             int inputToAccount = -1;
             while(inputToAccount == -1) {
+                Console.Write("Till? ");
                 try { 
                     inputToAccount = Convert.ToInt32(Console.ReadLine());
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid account number");
+                    Console.WriteLine("Ogiltigt kontonummer");
                 }
             }
 
-            Console.Write("Belopp? ");
             decimal inputAmount = 0m;
             while(inputAmount == 0m) {
+            Console.Write("Belopp? ");
                 try
                 {
                     inputAmount = Decimal.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid amount");
+                    Console.WriteLine("Ogiltig summa");
                 }
             }
          
-            bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
+            var transactionResult = bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
+
+            Console.WriteLine(transactionResult ? "Transaktion klar": "Transaktion misslyckad");
         }
     }
 }
