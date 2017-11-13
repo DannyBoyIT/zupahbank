@@ -9,8 +9,6 @@ namespace BusinessLib.System
     {
         private IRepository _repo;
 
-        private List<Customer> _customers { get; set; }
-
         public CustomerManagement(IRepository repo)
         {
             _repo = repo;
