@@ -110,11 +110,10 @@ namespace ZupahBank
             else
                 return -1;
 
-
         }
 
         //Case 0
-        static void SaveChanges(BankSystem bankSystem)
+        static void CaseSaveChangesAndExit(FileService fileService, FileRepository repo)
         {
             Console.WriteLine("> 0");
             Console.WriteLine("Avsluta och spara");
@@ -144,14 +143,15 @@ namespace ZupahBank
         {
             Console.WriteLine("> 2");
             Console.WriteLine("* Visa kundbild *");
-
             int customerId = 0;
             bool successfullyParsed = false;
-            while (customerId == 0) { 
+            while (customerId == 0)
+            {
                 Console.Write("Kundnummer? ");
 
                 var inputGetCustomer = Console.ReadLine();
                 successfullyParsed = int.TryParse(inputGetCustomer, out customerId);
+
             }
 
             if (successfullyParsed)
@@ -212,7 +212,7 @@ namespace ZupahBank
             Console.Write("Telefonnummer: ");
             var inputCustomerPhoneNumber = Console.ReadLine();
             var newCustomer = bankSystem.customerManagement.Create(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
-            Console.WriteLine(newCustomer ? "Användaren skapad": "Användare ej skapad");
+            Console.WriteLine(newCustomer ? "Användaren skapad" : "Användare ej skapad");
         }
 
         //Case 4 
@@ -225,14 +225,12 @@ namespace ZupahBank
             bool successfullyParsed = int.TryParse(inputCustomerId, out int deletedCustomerId);
             if (successfullyParsed)
             {
-                if (bankSystem.customerManagement.Delete(deletedCustomerId))
-                //if (repo.DeleteCustomer(deletedCustomerId))
-                {
-                    Console.WriteLine("Kunden " + deletedCustomerId + " är borttagen.");
-                }
-                else
-                    Console.WriteLine("Felaktigt kundnummer");
+                var result = bankSystem.customerManagement.Delete(deletedCustomerId);
+                Console.WriteLine(result
+                    ? $"Kunden {deletedCustomerId} är borttagen."
+                    : "Felaktigt kundnummer");
             }
+
             else
                 Console.WriteLine("Felaktig inmatning");
 
@@ -255,7 +253,7 @@ namespace ZupahBank
                     var result = bankSystem.accountManagement.Create(customerId);
                     Console.WriteLine(result
                         ? $"Nytt konto för kundnummer {customerId} skapat."
-                        : "Nåt gick fel, försök igen");
+                        : "Något gick fel, försök igen");
                 }
                 else
                 {
@@ -270,9 +268,6 @@ namespace ZupahBank
                 Console.WriteLine();
                 Console.WriteLine("Felaktig inmatning");
             }
-
-
-
         }
 
         //Case 6
@@ -305,7 +300,7 @@ namespace ZupahBank
             bool successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
             bool successfullyParsedAmount = decimal.TryParse(inputAmount, out decimal amount);
 
-            if(successfullyParsedAccountId && successfullyParsedAmount)
+            if (successfullyParsedAccountId && successfullyParsedAmount)
             {
                 var withdrawalAccepted = bankSystem.accountManagement.Deposit(accountId, amount);
                 Console.WriteLine();
@@ -314,7 +309,7 @@ namespace ZupahBank
 
             else
             {
-                Console.WriteLine("Felaktig inmatning. Kontrollera att du angett rätt kontonummber och summa.");
+                Console.WriteLine("Felaktig inmatning. Kontrollera att du angett rätt kontonummer och summa.");
             }
         }
 
@@ -364,9 +359,11 @@ namespace ZupahBank
             }
 
             int inputToAccount = -1;
-            while(inputToAccount == -1) {
+            while (inputToAccount == -1)
+            {
                 Console.Write("Till? ");
-                try { 
+                try
+                {
                     inputToAccount = Convert.ToInt32(Console.ReadLine());
                 }
                 catch
@@ -376,8 +373,9 @@ namespace ZupahBank
             }
 
             decimal inputAmount = 0m;
-            while(inputAmount == 0m) {
-            Console.Write("Belopp? ");
+            while (inputAmount == 0m)
+            {
+                Console.Write("Belopp? ");
                 try
                 {
                     inputAmount = Decimal.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
@@ -387,10 +385,10 @@ namespace ZupahBank
                     Console.WriteLine("Ogiltig summa");
                 }
             }
-         
+
             var transactionResult = bankSystem.transactionManagement.CreateTransaction(inputFromAccount, inputToAccount, inputAmount);
 
-            Console.WriteLine(transactionResult ? "Transaktion klar": "Transaktion misslyckad");
+            Console.WriteLine(transactionResult ? "Transaktion klar" : "Transaktion misslyckad");
         }
     }
 }
