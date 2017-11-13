@@ -9,8 +9,6 @@ namespace BusinessLib.System
     {
         private IRepository _repo;
 
-        private List<Customer> _customers { get; set; }
-
         public CustomerManagement(IRepository repo)
         {
             _repo = repo;
@@ -19,11 +17,6 @@ namespace BusinessLib.System
         public List<Customer> AllCustomers()
         {
             return _repo.GetAllCustomers();
-        }
-
-        public void Create(Customer customer)
-        {
-            _customers.Add(customer);
         }
 
         public void Create(string customerName, string legalId, string address, string zipCode, string city,
