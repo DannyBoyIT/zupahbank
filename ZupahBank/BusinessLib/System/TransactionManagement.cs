@@ -2,7 +2,7 @@
 
 namespace BusinessLib.System
 {
-    public class TransactionManagement
+    public class TransactionManagement : ITransactionManagement
     {
         private readonly IRepository _repo;
 
@@ -11,6 +11,24 @@ namespace BusinessLib.System
             _repo = repo;
         }
 
-        //Method for making a transaction
+        public bool CreateTransaction(int fromAccountId, int toAccountId, decimal amount)
+        {
+            if(amount < 0)
+            {
+                return false;
+            }
+
+            var fromAccountNewBalance = _repo.GetBalance(fromAccountId) - amount;
+
+            if(fromAccountNewBalance < 0)
+            {
+                return false;
+            }
+
+            var toAccountNewBalance = _repo.GetBalance(toAccountId) + amount;
+
+            return _repo.UpdateBalance(fromAccountId, toAccountId, fromAccountNewBalance, toAccountNewBalance);
+        }
+        
     }
 }
