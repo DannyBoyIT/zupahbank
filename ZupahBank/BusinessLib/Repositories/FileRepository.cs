@@ -211,7 +211,7 @@ namespace BusinessLib.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Inget sådant kontonummer");
                 throw;
             }
         }
