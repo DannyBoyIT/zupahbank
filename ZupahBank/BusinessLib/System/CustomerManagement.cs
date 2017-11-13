@@ -24,11 +24,6 @@ namespace BusinessLib.System
             return _repo.GetAllCustomers();
         }
 
-        public void Create(Customer customer)
-        {
-            _customers.Add(customer);
-        }
-
         public bool Create(string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
