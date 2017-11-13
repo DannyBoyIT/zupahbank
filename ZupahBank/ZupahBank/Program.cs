@@ -133,52 +133,61 @@ namespace ZupahBank
         //Case 2
         static void CaseGetCustomer(BankSystem bankSystem)
         {
-            Console.WriteLine("> 2");
-            Console.WriteLine("* Visa kundbild *");
+            bool successfullyParsed;
 
-            int customerId = 0;
-            bool successfullyParsed = false;
-            while (customerId == 0)
+            do
             {
+                Console.WriteLine();
+                Console.WriteLine("> 2");
+                Console.WriteLine("* Visa kundbild *");
                 Console.Write("Kundnummer? ");
 
                 var inputGetCustomer = Console.ReadLine();
-                successfullyParsed = int.TryParse(inputGetCustomer, out customerId);
-            }
+                successfullyParsed = int.TryParse(inputGetCustomer, out int customerId);
 
-            if (successfullyParsed)
-            {
-                var customer = bankSystem.customerManagement.GetCustomer(customerId);
-
-                if (customer != null)
+                if (successfullyParsed)
                 {
-                    Console.WriteLine("Kundnummer: " + customer.CustomerId);
-                    Console.WriteLine("Namn: " + customer.CustomerName);
-                    Console.WriteLine("Personnummer: " + customer.LegalId);
-                    Console.WriteLine("Adress: " + customer.Address);
-                    Console.WriteLine("Postnummer: " + customer.ZipCode);
-                    Console.WriteLine("Ort: " + customer.City);
-                    Console.WriteLine("Region: " + customer.Region);
-                    Console.WriteLine("Land: " + customer.Country);
+                    var customer = bankSystem.customerManagement.GetCustomer(customerId);
 
-                    foreach (var account in bankSystem.accountManagement.AllAccounts())
+                    if (customer != null)
                     {
-                        if (account.CustomerId == customer.CustomerId)
+                        Console.WriteLine("Kundnummer: " + customer.CustomerId);
+                        Console.WriteLine("Namn: " + customer.CustomerName);
+                        Console.WriteLine("Personnummer: " + customer.LegalId);
+                        Console.WriteLine("Adress: " + customer.Address);
+                        Console.WriteLine("Postnummer: " + customer.ZipCode);
+                        Console.WriteLine("Ort: " + customer.City);
+                        Console.WriteLine("Region: " + customer.Region);
+                        Console.WriteLine("Land: " + customer.Country);
+
+                        foreach (var account in bankSystem.accountManagement.AllAccounts())
                         {
-                            Console.WriteLine(account.AccountId + ": " + account.Balance);
+                            if (account.CustomerId == customer.CustomerId)
+                            {
+                                Console.WriteLine(account.AccountId + ": " + account.Balance);
+                            }
                         }
                     }
-                }
 
+                    else
+                    {
+                        Console.WriteLine("Kunden finns inte.");
+                        Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+                        successfullyParsed = false;
+                        if (Console.ReadKey(true).KeyChar == '0')
+                            break;
+                    }
+                }
                 else
                 {
-                    Console.WriteLine("Kunden finns inte.");
+                    Console.WriteLine("Felaktig inmatning.");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
                 }
-            }
-            else
-            {
-                Console.WriteLine("Felaktig inmatning.");
-            }
+
+            } while (!successfullyParsed);
         }
 
         //Case 3
@@ -235,9 +244,9 @@ namespace ZupahBank
 
                     if (Console.ReadKey(true).KeyChar == '0')
                         break;
-                }                   
+                }
 
-            } while(!successfullyParsed);
+            } while (!successfullyParsed);
         }
 
         //Case 5
