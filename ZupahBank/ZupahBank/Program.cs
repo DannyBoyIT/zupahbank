@@ -163,7 +163,6 @@ namespace ZupahBank
                     Console.WriteLine("Land: " + customer.Country);
 
                     foreach (var account in bankSystem.accountManagement.AllAccounts())
-                        //foreach (var account in repo.GetAllAccounts())
                     {
                         if (account.CustomerId == customer.CustomerId)
                         {
@@ -206,7 +205,6 @@ namespace ZupahBank
             Console.Write("Phonenumber: ");
             var inputCustomerPhoneNumber = Console.ReadLine();
             var newCustomer = bankSystem.customerManagement.Create(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
-            //var newCustomer = repo.CreateCustomer(inputCustomerName, inputCustomerLegalId, inputCustomerAddress, inputCustomerZipCode, inputCustomerCity, inputCustomerRegion, inputCustomerCountry, inputCustomerPhoneNumber);
         }
 
         //Case 4 
