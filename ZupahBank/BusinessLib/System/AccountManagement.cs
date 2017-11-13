@@ -11,6 +11,12 @@ namespace BusinessLib.System
         {
             _repo = repo;
         }
+        
+        public int GetNumberOfAccounts()
+        {
+            return _repo.NumberOfAccounts();
+        }
+
         public List<Account> AllAccounts()
         {
             return _repo.GetAllAccounts();
@@ -23,19 +29,35 @@ namespace BusinessLib.System
          
         public bool Delete(int accountId)
         {
-            return _repo.DeleteAccount(accountId);
+            var allAccounts = _repo.GetAllAccounts();
+            var acc = allAccounts.Find(x => x.AccountId == accountId);
+            if (acc.Balance == 0)
+            {
+                return _repo.DeleteAccount(accountId);
+            }
+            return false;
         }
 
         public bool Withdraw(int accountId, decimal amount)
         {
-            if (amount < 0)
+            if (amount < 1)
             {
                 return false;
             }
 
             var balance = _repo.GetBalance(accountId);
 
-            var newBalance = balance - amount;
+            decimal newBalance;
+
+            if(balance > 0)
+            {
+                newBalance = balance - amount;
+            }
+
+            else
+            {
+                return false;
+            }           
             
             if(newBalance < 0)
             {
@@ -56,7 +78,17 @@ namespace BusinessLib.System
 
             var balance = _repo.GetBalance(accountId);
 
-            var newBalance = balance + amount;
+            decimal newBalance;
+
+            if (balance > 0)
+            {
+                newBalance = balance - amount;
+            }
+
+            else
+            {
+                return false;
+            }
 
             _repo.UpdateBalance(accountId, newBalance);
 

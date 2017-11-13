@@ -9,11 +9,14 @@ namespace BusinessLib.System
     {
         private IRepository _repo;
 
-        private List<Customer> _customers { get; set; }
-
         public CustomerManagement(IRepository repo)
         {
             _repo = repo;
+        }
+
+        public int GetNumberOfCustomers()
+        {
+            return _repo.NumberOfCustomers();
         }
 
         public List<Customer> AllCustomers()
@@ -21,21 +24,21 @@ namespace BusinessLib.System
             return _repo.GetAllCustomers();
         }
 
-        public void Create(Customer customer)
-        {
-            _customers.Add(customer);
-        }
-
-        public void Create(string customerName, string legalId, string address, string zipCode, string city,
+        public bool Create(string customerName, string legalId, string address, string zipCode, string city,
             string region = "", string country = "", string phoneNumber = "")
         {
-            _repo.CreateCustomer(customerName, legalId, address, zipCode, city,
+            return _repo.CreateCustomer(customerName, legalId, address, zipCode, city,
                 region, country, phoneNumber);
         }
 
-        public void Delete(int customerId)
+        public bool Delete(int customerId)
         {
-            _repo.DeleteCustomer(customerId);
+            return _repo.DeleteCustomer(customerId);
+        }
+
+        public Customer GetCustomer(int customerId)
+        {
+            return _repo.GetCustomer(customerId);
         }
 
         public Customer Edit(int customerId)
@@ -47,7 +50,5 @@ namespace BusinessLib.System
         {
             return _repo.SearchCustomer(searchTerm);
         }
-        
-
     }
 }
