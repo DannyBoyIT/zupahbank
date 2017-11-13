@@ -264,19 +264,31 @@ namespace ZupahBank
         //Case 6
         static void CaseDeleteAccount(BankSystem bankSystem)
         {
-            Console.WriteLine("> 6");
-            Console.WriteLine("* Ta bort konto *");
-            Console.Write("Kontonummer: ");
-            var inputAccountId = Console.ReadLine();
-            if (int.TryParse(inputAccountId, out int value))
+            bool successfullyParsedAccountId;
+
+            do
             {
-                var response = bankSystem.accountManagement.Delete(Convert.ToInt32(inputAccountId));
-                Console.WriteLine(response ? "Kontot raderat" : "Saldot på kontot är ej noll, går ej radera");
-            }
-            else
-            {
-                Console.WriteLine("Felaktigt nummer, kontrollera att du skrivit in rätt kontonummer.");
-            }
+                Console.WriteLine();
+                Console.WriteLine("> 6");
+                Console.WriteLine("* Ta bort konto *");
+                Console.Write("Kontonummer: ");
+                var inputAccountId = Console.ReadLine();
+                successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
+                if (successfullyParsedAccountId)
+                {
+                    var response = bankSystem.accountManagement.Delete(accountId);
+                    Console.WriteLine(response ? "Kontot raderat" : "Saldot på kontot är ej noll, går ej radera");
+                }
+                else
+                {
+                    Console.WriteLine("Felaktigt nummer, kontrollera att du skrivit in rätt kontonummer.");
+                    Console.WriteLine("Tryck 0 för att komma till menyn annars tryck enter för att försöka igen.");
+
+                    if (Console.ReadKey(true).KeyChar == '0')
+                        break;
+                }
+
+            } while (!successfullyParsedAccountId);
         }
 
         //Case 7
