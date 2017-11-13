@@ -15,7 +15,7 @@ namespace ZupahBank
 
         static void Main(string[] args)
         {
-            string path = @".\Files\bankdata-small.txt" + args[0];            
+            string path = @".\Files\" + args[0];            
             var fileService = new FileService(); 
             var repo = FileRepository.Instance;
             _system = new BankSystem(repo);
