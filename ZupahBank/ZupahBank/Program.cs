@@ -14,8 +14,8 @@ namespace ZupahBank
 
         static void Main(string[] args)
         {
-            string path = @".\Files\" + args[0];            
-            var fileService = new FileService(); 
+            string path = @".\Files\" + args[0];
+            var fileService = new FileService();
             var repo = FileRepository.Instance;
             _system = new BankSystem(repo);
             fileService.TransformFileToRepo(repo, path);
@@ -135,7 +135,7 @@ namespace ZupahBank
             {
                 Console.WriteLine(item.CustomerId + ": " + item.CustomerName);
             }
-            
+
         }
 
         //Case 2
@@ -163,12 +163,12 @@ namespace ZupahBank
                     Console.WriteLine("Land: " + customer.Country);
 
                     foreach (var account in bankSystem.accountManagement.AllAccounts())
-                        //foreach (var account in repo.GetAllAccounts())
+                    //foreach (var account in repo.GetAllAccounts())
                     {
                         if (account.CustomerId == customer.CustomerId)
                         {
                             Console.WriteLine(account.AccountId + ": " + account.Balance);
-                        }                     
+                        }
                     }
                 }
 
@@ -236,14 +236,37 @@ namespace ZupahBank
         //Case 5
         static void CaseCreateAccount(BankSystem bankSystem)
         {
+            Console.WriteLine();
             Console.WriteLine("> 5");
-            Console.WriteLine("* Skapa konto *");          
+            Console.WriteLine("* Skapa konto *");
             Console.Write("Kundnummer: ");
-            var inputCustomerId = Convert.ToInt32(Console.ReadLine());
-            //Console.Write("Saldo: ");
-            //var inputBalance = Convert.ToDecimal(Console.ReadLine());
-            //repo.CreateAccount(inputCustomerId);
-            bankSystem.accountManagement.Create(inputCustomerId);
+            var inputCustomerId = Console.ReadLine();
+            bool successfullyParsed = int.TryParse(inputCustomerId, out int customerId);
+            if (successfullyParsed)
+            {
+                var customer = bankSystem.customerManagement.GetCustomer(customerId);
+                if (customer != null)
+                {
+                    var result = bankSystem.accountManagement.Create(customerId);
+                    Console.WriteLine(result
+                        ? $"Nytt konto för kundnummer {customerId} skapat."
+                        : "Nåt gick fel, försök igen");
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Felaktigt kundnummer");
+                    Console.WriteLine("Försök igen");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Felaktig inmatning");
+            }
+
+
 
         }
 
