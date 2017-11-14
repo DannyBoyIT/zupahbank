@@ -103,6 +103,7 @@ namespace ZupahBank
             }
             else
                 return -1;
+
         }
 
         //Case 0
@@ -119,6 +120,7 @@ namespace ZupahBank
         //Case 1
         static void CaseSearchCustomer(BankSystem bankSystem)
         {
+            Console.WriteLine();
             Console.WriteLine("> 1");
             Console.WriteLine("* Sök kund *");
             Console.Write("Namn eller postort?");
@@ -128,6 +130,9 @@ namespace ZupahBank
             {
                 Console.WriteLine(item.CustomerId + ": " + item.CustomerName);
             }
+
+            if (resultSearch.Count == 0)
+                Console.WriteLine("Inga kunder med dessa uppgifter hittades.");
         }
 
         //Case 2

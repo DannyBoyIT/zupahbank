@@ -23,13 +23,13 @@ namespace BusinessLibIntegrationTests
             var fromAccountNo = 13130;
             var toAccountNo = 13020;
 
-            Assert.Equal(false, 
+            Assert.False( 
                 sut.transactionManagement.CreateTransaction(fromAccountNo, toAccountNo, 5000));
 
-            Assert.Equal(false,
+            Assert.False(
                 sut.transactionManagement.CreateTransaction(fromAccountNo, toAccountNo, -500));
 
-            Assert.Equal(true, 
+            Assert.True( 
                 sut.transactionManagement.CreateTransaction(fromAccountNo, toAccountNo, 500));
 
             var allAccounts = sut.accountManagement.AllAccounts();

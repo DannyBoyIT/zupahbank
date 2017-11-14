@@ -82,7 +82,7 @@ namespace BusinessLib.System
 
             if (balance > 0)
             {
-                newBalance = balance - amount;
+                newBalance = balance + amount;
             }
 
             else
