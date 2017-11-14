@@ -40,14 +40,24 @@ namespace BusinessLib.System
 
         public bool Withdraw(int accountId, decimal amount)
         {
-            if (amount < 0)
+            if (amount < 1)
             {
                 return false;
             }
 
             var balance = _repo.GetBalance(accountId);
 
-            var newBalance = balance - amount;
+            decimal newBalance;
+
+            if(balance > 0)
+            {
+                newBalance = balance - amount;
+            }
+
+            else
+            {
+                return false;
+            }           
             
             if(newBalance < 0)
             {
@@ -68,7 +78,17 @@ namespace BusinessLib.System
 
             var balance = _repo.GetBalance(accountId);
 
-            var newBalance = balance + amount;
+            decimal newBalance;
+
+            if (balance > 0)
+            {
+                newBalance = balance - amount;
+            }
+
+            else
+            {
+                return false;
+            }
 
             _repo.UpdateBalance(accountId, newBalance);
 

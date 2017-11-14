@@ -18,14 +18,24 @@ namespace BusinessLib.System
                 return false;
             }
 
-            var fromAccountNewBalance = _repo.GetBalance(fromAccountId) - amount;
+            decimal fromAccountNewBalance, toAccountNewBalance;
 
-            if(fromAccountNewBalance < 0)
+            try { 
+
+                fromAccountNewBalance = _repo.GetBalance(fromAccountId) - amount;
+
+                if(fromAccountNewBalance < 0)
+                {
+                    return false;
+                }
+
+                toAccountNewBalance = _repo.GetBalance(toAccountId) + amount;
+
+            }
+            catch
             {
                 return false;
             }
-
-            var toAccountNewBalance = _repo.GetBalance(toAccountId) + amount;
 
             return _repo.UpdateBalance(fromAccountId, toAccountId, fromAccountNewBalance, toAccountNewBalance);
         }
