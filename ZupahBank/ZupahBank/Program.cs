@@ -12,7 +12,7 @@ namespace ZupahBank
 
         static void Main(string[] args)
         {
-            string path = @".\Files\" + args[0];
+            string path = @"C:\Users\Isabella\Source\Repos\zupahbank\ZupahBank\BusinessLib\Files\bankdata.txt";
             var fileService = new FileService();
             var repo = FileRepository.Instance;
             _system = new BankSystem(repo);
@@ -346,7 +346,7 @@ namespace ZupahBank
                 Console.Write("Belopp? ");
                 var inputAmount = Console.ReadLine();
                 successfullyParsedAccountId = int.TryParse(inputAccountId, out int accountId);
-                successfullyParsedAmount = decimal.TryParse(inputAmount, out decimal amount);
+                successfullyParsedAmount = decimal.TryParse(inputAmount, NumberStyles.AllowDecimalPoint, CultureInfo.CurrentCulture, out decimal amount);
 
                 if (successfullyParsedAccountId && successfullyParsedAmount)
                 {
