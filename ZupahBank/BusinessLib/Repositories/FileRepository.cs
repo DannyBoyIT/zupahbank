@@ -35,7 +35,7 @@ namespace BusinessLib.Repositories
 
         public List<Customer> GetAllCustomers() => Customers;
 
-        public List<Customer> SearchCustomer(string searchTerm) => Customers.Where(x => x.CustomerName.Contains(searchTerm) || x.City.Contains(searchTerm)).ToList();
+        public List<Customer> SearchCustomer(string searchTerm) => Customers.Where(x => x.CustomerName.ToLower().Contains(searchTerm.ToLower()) || x.City.ToLower().Contains(searchTerm.ToLower())).ToList();
 
         public Customer GetCustomer(int customerId) => Customers.FirstOrDefault(x => x.CustomerId == customerId);
 
