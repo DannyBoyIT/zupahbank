@@ -35,7 +35,7 @@ namespace BusinessLib.Repositories
 
         public List<Customer> GetAllCustomers() => Customers;
 
-        public List<Customer> SearchCustomer(string searchTerm) => Customers.Where(x => x.CustomerName.Contains(searchTerm) || x.City.Contains(searchTerm)).ToList();
+        public List<Customer> SearchCustomer(string searchTerm) => Customers.Where(x => x.CustomerName.ToLower().Contains(searchTerm.ToLower()) || x.City.ToLower().Contains(searchTerm.ToLower())).ToList();
 
         public Customer GetCustomer(int customerId) => Customers.FirstOrDefault(x => x.CustomerId == customerId);
 
@@ -63,17 +63,18 @@ namespace BusinessLib.Repositories
                 {
                     if (property.Name == nameof(customer.Region) || property.Name == nameof(customer.Country) ||
                         property.Name == nameof(customer.PhoneNumber)) continue;
-                    if (string.IsNullOrEmpty(property.GetValue(customer).ToString()))
+                    if (string.IsNullOrEmpty(property.GetValue(customer)?.ToString()))
                     {
                         throw new NullReferenceException();
                     }
                 }
                 Customers.Add(customer);
+                CreateAccount(customer.CustomerId);
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Obligatoriskt fält saknas");
                 return false;
             }
         }
@@ -96,7 +97,6 @@ namespace BusinessLib.Repositories
                 };
 
                 Customers.Add(customer);
-                CreateAccount(customer.CustomerId);
                 return true;
             }
             catch (Exception e)
@@ -211,7 +211,7 @@ namespace BusinessLib.Repositories
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("Inget sådant kontonummer");
                 throw;
             }
         }

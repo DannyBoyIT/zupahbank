@@ -16,7 +16,7 @@ namespace BusinessLibUnitTests
 
             var customers = system.customerManagement.Search("Kalle");
 
-            Assert.Equal(1, customers.Count);
+            Assert.Single(customers);
         }
 
         [Fact]
