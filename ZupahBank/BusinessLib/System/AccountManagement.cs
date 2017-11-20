@@ -78,17 +78,7 @@ namespace BusinessLib.System
 
             var balance = _repo.GetBalance(accountId);
 
-            decimal newBalance;
-
-            if (balance > 0)
-            {
-                newBalance = balance - amount;
-            }
-
-            else
-            {
-                return false;
-            }
+            decimal newBalance = balance + amount;
 
             _repo.UpdateBalance(accountId, newBalance);
 
