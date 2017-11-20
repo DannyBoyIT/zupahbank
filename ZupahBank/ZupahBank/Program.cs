@@ -165,13 +165,18 @@ namespace ZupahBank
                         Console.WriteLine("Region: " + customer.Region);
                         Console.WriteLine("Land: " + customer.Country);
 
+                        var sum = 0m;
+
                         foreach (var account in bankSystem.accountManagement.AllAccounts())
                         {
                             if (account.CustomerId == customer.CustomerId)
                             {
                                 Console.WriteLine(account.AccountId + ": " + account.Balance);
+                                sum += account.Balance;
                             }
                         }
+
+                        Console.WriteLine(string.Format("Total balance: {0}", sum));
                     }
 
                     else
